@@ -1,0 +1,21 @@
+# Be 8 bit clean.
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# enable vi mode
+set editing-mode vi
+set keymap vi
+
+# allow the use of the Home/End keys
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# allow the use of the Delete/Insert keys
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# mappings for "page up" and "page down" to step to the beginning/end 
+# of the history
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
