@@ -14,7 +14,6 @@ export LC_CTYPE=en_US.UTF-8
 
 # Python Environment
 export PYTHONSTARTUP="$HOME/.pystartup.py"
-export WORKON_HOME="$HOME/Work/projects"
 source ~/bin/django_bash_completion
 
 # Java
