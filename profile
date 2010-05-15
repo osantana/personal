@@ -35,3 +35,14 @@ c() {
     [ -d "$VIRTUAL_ENV" ] && cd $VIRTUAL_ENV
 }
 
+cdp () {
+    p="$(python -c "import os.path as _, ${1}; \
+        print _.dirname(_.realpath(${1}.__file__[:-1]))"
+    )"
+    cd "$p"
+}
+
+# Setting PATH for MacPython 2.6
+# The orginal version is saved in .profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/2.6/bin:${PATH}"
+export PATH

@@ -53,14 +53,32 @@ load-plugins=
 #enable-msg=
 
 # Disable the message(s) with the given id(s).
-disable-msg=C0111,W0142,R0903,R0201,W0201,W0232,W0221,R0801
+disable-msg=C0111,W0142,R0903,R0201,W0201,W0232,W0221,R0801,E1103
+# C0111 = Used when a module, function, class or method has no docstring. Some
+#         special methods like __init__ doesn't necessary require a docstring.
+# W0142 = Used when a function or method is called using *args or **kwargs to
+#         dispatch arguments. This doesn't improve readility and should be used
+#         with care.
+# R0903 = Used when class has too few public methods, so be sure it's really
+#         worth it.
+# R0201 = Used when a method doesn't use its bound instance, and so could be
+#         written as a function.
+# W0232 = Used when a class has no __init__ method, neither its parent classes.
+# W0221 = Used when a method has a different number of arguments than in the
+#         implemented interface or in an overridden method.
+# R0801 = Indicates that a set of similar lines has been detected among
+#         multiple file. This usually means that the code should be refactored
+#         to avoid this duplication.
+# E1103 = Used when a variable is accessed for an unexistant member, but astng
+#         was not able to interpret all possible types of this variable.
+#         (doesn't work correctly)
 
 
 [REPORTS]
 
 # set the output format. Available formats are text, parseable, colorized, msvs
 # (visual studio) and html
-output-format=colorized
+output-format=text
 
 # Include message's id in output
 include-ids=yes
@@ -218,10 +236,11 @@ max-locals=20
 max-returns=6
 
 # Maximum number of branch for function / method body
-max-branchs=12
+# parser functions need lots of branches
+max-branchs=25
 
 # Maximum number of statements in function / method body
-max-statements=50
+max-statements=60
 
 # Maximum number of parents for a class (see R0901).
 max-parents=5

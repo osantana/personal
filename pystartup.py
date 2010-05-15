@@ -1,11 +1,11 @@
-#Enable syntax completion
-# try:
-#     import readline
-# except ImportError:
-#     print "Module readline not available."
-# else:
-#     import rlcompleter
-#     readline.parse_and_bind("tab: complete")
+# Enable syntax completion
+try:
+    import readline
+except ImportError:
+    print "Module readline not available."
+else:
+    import rlcompleter
+    readline.parse_and_bind("tab: complete")
 #
 # Add auto-completion and a stored history file of commands to your Python
 # interactive interpreter. Requires Python 2.0+, readline. Autocomplete is
