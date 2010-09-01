@@ -7,6 +7,7 @@ colorscheme delek
 " colorscheme elflord
 
 " General settings
+set laststatus=2
 set nocompatible
 set nojoinspaces
 set ruler
