@@ -32,14 +32,20 @@ p() {
 }
 
 c() {
-    [ -d "$VIRTUAL_ENV" ] && cd $VIRTUAL_ENV
+    if [ -d "$PROJDIR" ]; then
+        cd "$PROJDIR"
+    else
+        [ -d "$VIRTUAL_ENV" ] && cd $VIRTUAL_ENV
+    fi
 }
 
 cdp () {
-    p="$(python -c "import os.path as _, ${1}; \
-        print _.dirname(_.realpath(${1}.__file__[:-1]))"
-    )"
-    cd "$p"
+    if [ "$1" ]; then
+        p="$(python -c "import os.path as _, ${1}; \
+            print _.dirname(_.realpath(${1}.__file__[:-1]))"
+        )"
+        cd "$p"
+    fi
 }
 
 # Setting PATH for MacPython 2.6
@@ -51,3 +57,8 @@ export PATH
 # The orginal version is saved in .profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 export PATH
+
+# Setting PATH for MySQL
+PATH="$PATH:/usr/local/mysql/bin"
+export PATH
+
