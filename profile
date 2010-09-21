@@ -12,19 +12,6 @@ export EDITOR=vim
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-# Python Environment
-export PYTHONSTARTUP="$HOME/.pystartup.py"
-source ~/bin/django_bash_completion
-
-# Java
-export JAVA_HOME="/Library/Java/Home"
-
-# Ruby
-RUBYBINDIR="$HOME/.gem/ruby/1.8/bin"
-if [ -d "$RUBYBINDIR" ]; then
-    export PATH="$RUBYBINDIR:$PATH"
-fi
-
 # Shortcuts
 p() {
     cd ~/Work/$1*
@@ -39,26 +26,24 @@ c() {
     fi
 }
 
-cdp () {
-    if [ "$1" ]; then
-        p="$(python -c "import os.path as _, ${1}; \
-            print _.dirname(_.realpath(${1}.__file__[:-1]))"
-        )"
-        cd "$p"
-    fi
-}
+# Python Settings
+export PATH="/Library/Frameworks/Python.framework/Versions/2.6/bin:${PATH}"
+export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+export PYTHONSTARTUP="$HOME/.pystartup.py"
+source ~/bin/django_bash_completion
 
-# Setting PATH for MacPython 2.6
-# The orginal version is saved in .profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.6/bin:${PATH}"
-export PATH
 
-# Setting PATH for Python 2.7
-# The orginal version is saved in .profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH
+# MySQL Settings
+export PATH="${PATH}:/usr/local/mysql/bin"
 
-# Setting PATH for MySQL
-PATH="$PATH:/usr/local/mysql/bin"
-export PATH
+# Java Settings
+export JAVA_HOME="/Library/Java/Home"
 
+# Ruby Settings
+RUBYBINDIR="$HOME/.gem/ruby/1.8/bin"
+if [ -d "$RUBYBINDIR" ]; then
+    export PATH="$RUBYBINDIR:$PATH"
+fi
+
+# Mounting sensitive
+$HOME/bin/mount_sensitive
