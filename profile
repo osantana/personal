@@ -32,6 +32,9 @@ export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 export PYTHONSTARTUP="$HOME/.pystartup.py"
 source ~/bin/django_bash_completion
 
+if [ -d "/usr/local/google_appengine" ]; then
+    export PYTHONPATH="/usr/local/google_appengine:/usr/local/google_appengine/lib"
+fi
 
 # MySQL Settings
 export PATH="${PATH}:/usr/local/mysql/bin"
@@ -47,3 +50,4 @@ fi
 
 # Mounting sensitive
 $HOME/bin/mount_sensitive
+
