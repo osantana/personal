@@ -47,7 +47,3 @@ RUBYBINDIR="$HOME/.gem/ruby/1.8/bin"
 if [ -d "$RUBYBINDIR" ]; then
     export PATH="$RUBYBINDIR:$PATH"
 fi
-
-# Mounting sensitive
-$HOME/bin/mount_sensitive
-
