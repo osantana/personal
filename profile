@@ -37,6 +37,7 @@ c() {
 [ -f "${HOME}/.pystartup.py" ] && PYTHONSTARTUP="${HOME}/.pystartup.py"
 export PYTHONPATH
 export PYTHONSTARTUP
+export MACOSX_DEPLOYMENT_TARGET=10.6
 source ~/bin/django_bash_completion
 
 [ -d "${HOME}/.gem/ruby/1.8/bin" ] && PATH="${PATH}:${HOME}/.gem/ruby/1.8/bin" # Ruby Settings
