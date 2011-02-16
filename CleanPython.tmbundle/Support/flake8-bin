@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+tm_bundle_path = os.environ['TM_BUNDLE_PATH']
+flake8_dir = os.path.join(tm_bundle_path, "Support", "flake8")
+
+sys.path.append(flake8_dir)
+
+from flake8.run import main
+
+if __name__ == '__main__':
+    main()
