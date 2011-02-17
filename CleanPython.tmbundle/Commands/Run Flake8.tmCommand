@@ -8,7 +8,7 @@
 	<string>#!/bin/sh
 
 echo "${TM_PROJECT_DIRECTORY}:"
-"${TM_BUNDLE_PATH}/Support/flake8-bin" "${TM_FILEPATH}" | sed "s,^${TM_PROJECT_DIRECTORY},  ,"</string>
+"${TM_BUNDLE_PATH}"/Support/flake8-bin --ignore=E501 "${TM_FILEPATH}" | sed "s,^${TM_PROJECT_DIRECTORY},  ,"</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
