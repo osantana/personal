@@ -12,7 +12,6 @@ from flake8 import mccabe
 
 
 def check_file(path, complexity=10):
-
     warnings = pyflakes.checkPath(path)
     warnings += pep8.input_file(path)
     warnings += mccabe.get_module_complexity(path, complexity)
@@ -55,8 +54,12 @@ def main():
 
 
 def _get_files(repo, **kwargs):
+    seen = set()
     for rev in xrange(repo[kwargs['node']], len(repo)):
         for file_ in repo[rev].files():
+            if file_ in seen:
+                continue
+            seen.add(file_)
             if not file_.endswith('.py'):
                 continue
             if skip_file(file_):
@@ -64,17 +67,28 @@ def _get_files(repo, **kwargs):
             yield file_
 
 
+class _PEP8Options(object):
+    exclude = select = []
+    show_pep8 = show_source = quiet = verbose = testsuite = False
+    repeat = True
+    messages = counters = {}
+    ignore = pep8.DEFAULT_IGNORE
+
+
 def hg_hook(ui, repo, **kwargs):
-    pep8.process_options()
+    # default pep8 setup
+    pep8.options = _PEP8Options()
+    pep8.options.physical_checks = pep8.find_checks('physical_line')
+    pep8.options.logical_checks = pep8.find_checks('logical_line')
+    pep8.args = []
+
     warnings = 0
     for file_ in _get_files(repo, **kwargs):
         warnings += check_file(file_)
 
-    strict = ui.config('flake8', 'strict')
-    if strict is None:
-        strict = True
+    strict = ui.configbool('flake8', 'strict', default=True)
 
-    if strict.lower() in ('1', 'true'):
+    if strict:
         return warnings
 
     return 0
