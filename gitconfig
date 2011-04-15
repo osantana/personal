@@ -11,12 +11,19 @@
 	st = status
 	ci = commit
 	co = checkout
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 [merge]
 	tool = opendiff
 [core]
 	legacyheaders = false
 	excludesfile = /Users/osantana/.gitignore
     whitespace = trailing-space,space-before-tab
+	autocrlf = input
+	safecrlf = true
 [apply]
     whitespace = fix
 [repack]
