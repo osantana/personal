@@ -11,11 +11,12 @@ export LC_CTYPE=en_US.UTF-8
 # =========
 alias mv="mv -i"
 alias cp="cp -i"
-alias ls='ls -G'
+alias ls="ls -G"
 
 p() {
     cd ~/Work/$1*
     [ -f bin/activate ] && source bin/activate
+    [ -f environment/bin/activate ] && source environment/bin/activate
 }
 
 c() {
@@ -38,14 +39,19 @@ c() {
 export PYTHONPATH
 export PYTHONSTARTUP
 export MACOSX_DEPLOYMENT_TARGET=10.6
+export ARCHFLAGS="-arch i386 -arch x86_64"
 source ~/bin/django_bash_completion
 
 [ -d "${HOME}/.gem/ruby/1.8/bin" ] && PATH="${PATH}:${HOME}/.gem/ruby/1.8/bin" # Ruby Settings
+[[ -s "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home" # Java
 
 # Other PATHS
-[ -d "/usr/local/git" ] && PATH="${PATH}:/usr/local/git/bin"
-[ -d "/usr/local/mysql" ] && PATH="${PATH}:/usr/local/mysql/bin"
+[ -d "/usr/local/git" ] && PATH="/usr/local/git/bin:${PATH}"
+[ -d "/usr/local/mysql" ] && PATH="/usr/local/mysql/bin:${PATH}"
+[ -d "/Library/PostgreSQL/9.0/bin/" ] && PATH="/Library/PostgreSQL/9.0/bin:${PATH}"
+[ -d "/usr/local/node" ] && PATH="/usr/local/node/bin:${PATH}"
 [ -d "${HOME}/bin" ] && PATH="${HOME}/bin:${PATH}"
 export PATH
 
