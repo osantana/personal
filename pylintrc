@@ -192,7 +192,7 @@ acquired-members=REQUEST,acl_users,aq_parent
 [VARIABLES]
 
 # Tells wether we should check for unused import in __init__ files.
-init-import=no
+init-import=yes
 
 # A regular expression matching names used for dummy variables (i.e. not used).
 dummy-variables-rgx=_|dummy
@@ -268,15 +268,15 @@ deprecated-modules=regsub,TERMIOS,Bastion,rexec
 
 # Create a graph of every (i.e. internal and external) dependencies in the
 # given file (report R0402 must not be disabled)
-import-graph=
+#import-graph=
 
 # Create a graph of external dependencies in the given file (report R0402 must
 # not be disabled)
-ext-import-graph=
+#ext-import-graph=
 
 # Create a graph of internal dependencies in the given file (report R0402 must
 # not be disabled)
-int-import-graph=
+#int-import-graph=
 
 
 # checks for :
