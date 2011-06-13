@@ -40,7 +40,7 @@ export PYTHONPATH
 export PYTHONSTARTUP
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export ARCHFLAGS="-arch i386 -arch x86_64"
-source ~/bin/django_bash_completion
+source ~/.local/bin/django_bash_completion
 
 [ -d "${HOME}/.gem/ruby/1.8/bin" ] && PATH="${PATH}:${HOME}/.gem/ruby/1.8/bin" # Ruby Settings
 [[ -s "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"  # This loads RVM into a shell session.
@@ -52,6 +52,5 @@ source ~/bin/django_bash_completion
 [ -d "/usr/local/mysql" ] && PATH="/usr/local/mysql/bin:${PATH}"
 [ -d "/Library/PostgreSQL/9.0/bin/" ] && PATH="/Library/PostgreSQL/9.0/bin:${PATH}"
 [ -d "/usr/local/node" ] && PATH="/usr/local/node/bin:${PATH}"
-[ -d "${HOME}/bin" ] && PATH="${HOME}/bin:${PATH}"
+[ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
 export PATH
-
