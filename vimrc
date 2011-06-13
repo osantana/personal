@@ -1,14 +1,30 @@
+" Reference:
+"  http://sontek.net/turning-vim-into-a-modern-python-ide
+
+filetype off
+
+" Override some plugin settings
+map <leader>v <Plug>TaskList
+map <leader>g <Plug>MakeGreen
+map <leader>U :GundoToggle<CR>
+map <leader>dt :set makeprg=nosetests\|:call MakeGreen()<CR>
+
+let g:pyflakes_use_quickfix = 0
+let g:pep8_map='<leader>8'
+
+set statusline=%<%f\ %h%m%r%y%=%-15.{fugitive#statusline()}\ %-14.(%l,%c%V%)\ %P
+
+" Load and configure pathogen
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 " Color (light bg)
 set background=light
 colorscheme delek
 
-" Color (dark bg)
-" set background=dark
-" colorscheme elflord
-
 " General settings
-set modeline
-set modelines=5
+set modeline 				" use vim settings in beginning/end of files
+set modelines=5 			" number of lines to look for modeline
 set laststatus=2
 set nocompatible                        " disable compatible mode
 set ruler                               " show line,col in status bar
@@ -26,25 +42,28 @@ set completeopt=menu,preview            " configure drop-down menu when completi
 set wildmode=list:longest               " bash like command line tab completion
 set wildignore=*.o,*.obj,*~,*.swp,*.pyc " ignore when tab completing:
 set writeany                            " Allow writing readonly files
+set visualbell 				" Set visual bell
+set foldmethod=indent 			" Folding method: indent
+set foldlevel=99 			" Initial Fold Level
 
-filetype plugin indent on               " indent files, ftplugins
+let mapleader="," 			" <Leader> == ,
 
-
-" Tab/Indent config
-" 4 soft-space tabs for all kind of documents
-set expandtab
-set smarttab
-set autoindent
-set smartindent
-set shiftwidth=4 tabstop=4 softtabstop=4
-set visualbell
-let mapleader=","
+" CTRL+[hjkl] navigation between buffers
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
 
 " Doh... you know what this does... ;-)
 syntax on
 
+" Restore filetype system
+filetype on
+filetype plugin indent on               " indent files, ftplugins
+
 " Some useful abbreviations to common mistyped commands
-cab W w | cab Q q | cab Wq wq | cab wQ wq | cab WQ wq
+cab W w | cab Q q | cab Wq wq | cab wQ wq | cab WQ wq | cab X x
+
 
 " Comment/Uncomment for different languages
 au FileType haskell,vhdl,ada            let comment = '-- '
@@ -59,6 +78,7 @@ au FileType vim                         let comment = '" '
 noremap <silent> ,c :s,^,<C-R>=comment<CR>,<CR>:noh<CR>
 noremap <silent> ,u :s,^\V<C-R>=comment<CR>,,e<CR>:noh<CR>
 
+
 " Highlight trailing whitespaces
 highlight WhitespaceEOL ctermbg=red guibg=red
 au ColorScheme * highlight WhitespaceEOL ctermbg=red guibg=red
@@ -69,17 +89,10 @@ noremap <silent> ,a :%s,\s\+$,,<CR>
 
 " Language specifics
 let python_highlight_all = 1
-au FileType make   set noexpandtab
+
 au FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au FileType python set omnifunc=pythoncomplete#Complete
-au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-au FileType html set omnifunc=htmlcomplete#CompleteTags
-au FileType css set omnifunc=csscomplete#CompleteCSS
-au FileType xml set omnifunc=xmlcomplete#CompleteTags
-au FileType php set omnifunc=phpcomplete#CompletePHP
-au FileType c set omnifunc=ccomplete#Complete
-au FileType ruby,eruby set omnifunc=rubycomplete#Complete
-
+au FileType python set expandtab smarttab autoindent smartindent shiftwidth=4 tabstop=4 softtabstop=4
 
 " Terminal.app keyboard settings
 map <Esc>[H <Home>
@@ -101,7 +114,6 @@ if has("gui_macvim")
     set guioptions-=T
     colorscheme macvim
     set bg=light
-"     set guifont=Meslo\ LG\ S\ DZ:h18
     set guifont=Consolas:h18
     set guicursor=a:blinkoff0-blinkwait0
 endif
