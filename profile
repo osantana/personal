@@ -28,29 +28,43 @@ c() {
 }
 
 
-# Language Settings
-# =================
+# Languages
+# =========
 
 # Python
-[ -d "/Library/Frameworks/Python.framework/Versions/2.6" ] && PATH="/Library/Frameworks/Python.framework/Versions/2.6/bin:${PATH}"
-[ -d "/Library/Frameworks/Python.framework/Versions/2.7" ] && PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+[ -d "/usr/local/share/python" ] && PATH="/usr/local/share/python:$PATH"
 [ -d "/usr/local/google_appengine" ] && PYTHONPATH="/usr/local/google_appengine:/usr/local/google_appengine/lib"
 [ -f "${HOME}/.pystartup.py" ] && PYTHONSTARTUP="${HOME}/.pystartup.py"
 export PYTHONPATH
 export PYTHONSTARTUP
 export MACOSX_DEPLOYMENT_TARGET=10.6
 export ARCHFLAGS="-arch i386 -arch x86_64"
-source ~/.local/bin/django_bash_completion
 
-[ -d "${HOME}/.gem/ruby/1.8/bin" ] && PATH="${PATH}:${HOME}/.gem/ruby/1.8/bin" # Ruby Settings
-[[ -s "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+# Java
+[ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
 
-[ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home" # Java
 
-# Other PATHS
-[ -d "/usr/local/git" ] && PATH="/usr/local/git/bin:${PATH}"
-[ -d "/usr/local/mysql" ] && PATH="/usr/local/mysql/bin:${PATH}"
-[ -d "/Library/PostgreSQL/9.0/bin/" ] && PATH="/Library/PostgreSQL/9.0/bin:${PATH}"
-[ -d "/usr/local/node" ] && PATH="/usr/local/node/bin:${PATH}"
-[ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
-export PATH
+# Homebrew
+# ========
+export HOMEBREW_HOME="/usr/local"
+
+HOMEBREW_OVERRIDES="python git"
+for OVERRIDE in $HOMEBREW_OVERRIDES; do
+    # FIXME: get the higher version instead of the most recent installation
+    OVERRIDEDIR=$(ls -1rtd ${HOMEBREW_HOME}/Cellar/${OVERRIDE}/*/bin | tail -1)
+    [ -d "${OVERRIDEDIR}" ] && PATH="${OVERRIDEDIR}:$PATH"
+done
+
+
+# Local
+# =====
+[ -d "${HOME}/.local/bin" ] && export PATH="${HOME}/.local/bin:${PATH}"
+
+
+# Completions
+# ===========
+ls "${HOMEBREW_HOME}"/etc/bash_completion.d/* \
+     "${HOME}"/.local/etc/bash_completion.d/* | while read f; do
+    source "${f}"
+done
+
