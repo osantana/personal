@@ -43,8 +43,10 @@ def save_history(historyPath=historyPath, endMarkerStr=endMarkerStr):
                       not lineP.strip().endswith(endMarkerStr), open(historyPath).readlines())
     open(historyPath, 'w+').write(''.join(lines))
 
-if os.path.exists(historyPath):
+try:
     readline.read_history_file(historyPath)
+except IOError:
+    pass
 
 atexit.register(save_history)
 
