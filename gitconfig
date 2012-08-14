@@ -28,10 +28,6 @@
     whitespace = fix
 [repack]
 	usedeltabaseoffset = true
-[git-tmbundle]
-	gitx-path = /Application/GitX.app/
-[mergetool "opendiff"]
-	cmd = opendiff
-	trustExitCode = true
 [clean]
 	requireForce = false
+
