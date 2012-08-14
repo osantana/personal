@@ -1,3 +1,9 @@
+import sys
+import atexit
+import os
+import readline
+import rlcompleter
+
 # Enable syntax completion
 try:
     import readline
@@ -6,25 +12,11 @@ except ImportError:
 else:
     import rlcompleter
     readline.parse_and_bind("tab: complete")
-#
-# Add auto-completion and a stored history file of commands to your Python
-# interactive interpreter. Requires Python 2.0+, readline. Autocomplete is
-# bound to the Esc key by default (you can change it - see readline docs).
-#
-# Store the file in ~/.pystartup, and set an environment variable to point
-# to it, e.g. "export PYTHONSTARTUP=/max/home/itamar/.pystartup" in bash.
-#
-# Note that PYTHONSTARTUP does *not* expand "~", so you have to put in the
-# full path to your home directory.
 
-import atexit
-import os
-import readline
-import rlcompleter
+sys.path.append(os.path.expanduser("~/.python"))
 
 historyPath = os.path.expanduser("~/.pyhistory")
 historyTmp = os.path.expanduser("~/.pyhisttmp.py")
-
 endMarkerStr= "# # # histDUMP # # #"
 
 saveMacro= "import readline; readline.write_history_file('"+historyTmp+"'); \
@@ -52,3 +44,5 @@ atexit.register(save_history)
 
 del os, atexit, readline, rlcompleter, save_history, historyPath
 del historyTmp, endMarkerStr, saveMacro
+
+
