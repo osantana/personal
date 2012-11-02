@@ -42,6 +42,13 @@ c() {
     cdproject $*
 }
 
+function _update_ps1()
+{
+	export PS1="$(~/.powerline-bash.py $?) "
+}
+
+[ -x ~/.powerline-bash.py ] && export PROMPT_COMMAND="_update_ps1"
+
 
 [ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && source "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
 
