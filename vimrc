@@ -45,6 +45,7 @@ set writeany                            " Allow writing readonly files
 set visualbell 				" Set visual bell
 set foldmethod=indent 			" Folding method: indent
 set foldlevel=99 			" Initial Fold Level
+set clipboard=unnamed
 
 let mapleader="," 			" <Leader> == ,
 
