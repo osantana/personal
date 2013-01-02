@@ -13,6 +13,9 @@ alias cp="cp -i"
 alias ls="ls -G"
 
 
+# Basic PATH (speedup path_helper)
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin
+
 # Languages
 # =========
 
@@ -55,7 +58,8 @@ function _update_ps1()
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
 
-
+# Javascript/Node.js
+[ -d "${HOMEBREW_HOME}/share/npm/bin" ] && PATH="${HOMEBREW_HOME}/share/npm/bin:${PATH}"
 
 # Local
 # =====
