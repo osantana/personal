@@ -1,7 +1,0 @@
-Project created by Tarek Ziadé.
-
-Contributors:
-
-- Tamás Gulácsi
-- Nicolas Dumazet
-- Stefan Scherfke
