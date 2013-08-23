@@ -16,18 +16,17 @@ alias ls="ls -G"
 # Basic PATH (speedup path_helper)
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin
 
-# Languages
-# =========
-
 # Homebrew
 # ========
 export HOMEBREW_HOME="/usr/local"
 PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 
-# Homebrew's Python Scripts
-[ -d "${HOMEBREW_HOME}/share/python" ] && PATH="${HOMEBREW_HOME}/share/python:$PATH"
+
+# Languages
+# =========
 
 # Python
+[ -d "${HOMEBREW_HOME}/share/python" ] && PATH="${HOMEBREW_HOME}/share/python:$PATH"
 [ -d "/usr/local/google_appengine" ] && PYTHONPATH="/usr/local/google_appengine:/usr/local/google_appengine/lib"
 [ -d "${HOME}/.python" ] || mkdir -p "${HOME}/.python"
 [ -f "${HOME}/.pystartup.py" ] && export PYTHONSTARTUP="${HOME}/.pystartup.py"
@@ -37,29 +36,20 @@ PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 [ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_LOG_DIR="${HOME}/.python"
 export PYTHONPATH
 
-p() {
-    workon $(workon | sed -n "/^$1.*/p" | head -1)
-}
-
-c() {
-    cdproject $*
-}
-
-function _update_ps1()
-{
-	export PS1="$(~/.powerline-bash.py $?) "
-}
-
-[ -x ~/.powerline-bash.py ] && export PROMPT_COMMAND="_update_ps1"
-
-
 [ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && source "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
+p() { workon $(workon | sed -n "/^$1.*/p" | head -1) }
+c() { cdproject $* }
+
+
+# Ruby
+[ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
 
 # Javascript/Node.js
 [ -d "${HOMEBREW_HOME}/share/npm/bin" ] && PATH="${HOMEBREW_HOME}/share/npm/bin:${PATH}"
+
 
 # Local
 # =====
@@ -73,14 +63,26 @@ ls "${HOMEBREW_HOME}"/etc/bash_completion.d/* \
     source "${f}"
 done
 
+
 # EC2
 # ===
-
 [ -d "${HOME}/.local/ec2-api-tools" ] && export EC2_HOME="${HOME}/.local/ec2-api-tools"
 [ -d "${HOME}/.local/ec2-api-tools" ] && export PATH="${EC2_HOME}/bin:${PATH}"
-export EC2_PRIVATE_KEY="~/.ec2/pk-REIUPFSEXL4REWA5BTMVWNQ2EBQME67H.pem"
-export EC2_CERT="~/.ec2/cert-REIUPFSEXL4REWA5BTMVWNQ2EBQME67H.pem"
+export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
+export EC2_CERT="~/.ec2/cert.pem"
 export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
-# export PATH changes
+
+# Powerline
+# =========
+function _update_ps1()
+{
+    export PS1="$(~/.powerline-shell.py --mode flat $?) "
+}
+
+[ -x ~/.powerline-shell.py ] && export PROMPT_COMMAND="_update_ps1"
+
+
+# final export PATH changes
 export PATH
+
