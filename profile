@@ -37,8 +37,8 @@ PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 export PYTHONPATH
 
 [ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && source "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
-p() { workon $(workon | sed -n "/^$1.*/p" | head -1) }
-c() { cdproject $* }
+p() { workon $(workon | sed -n "/^$1.*/p" | head -1); }
+c() { cdproject $*; }
 
 
 # Ruby
@@ -75,11 +75,7 @@ export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
 # Powerline
 # =========
-function _update_ps1()
-{
-    export PS1="$(~/.powerline-shell.py --mode flat $?) "
-}
-
+_update_ps1() { export PS1="$(~/.powerline-shell.py --mode flat $?) "; }
 [ -x ~/.powerline-shell.py ] && export PROMPT_COMMAND="_update_ps1"
 
 
