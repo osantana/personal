@@ -58,10 +58,7 @@ c() { cdproject $*; }
 
 # Completions
 # ===========
-ls "${HOMEBREW_HOME}"/etc/bash_completion.d/* \
-     "${HOME}"/.local/etc/bash_completion.d/* | while read f; do
-    source "${f}"
-done
+[ -f "${HOMEBREW_HOME}/etc/bash_completion" ] && source "${HOMEBREW_HOME}/etc/bash_completion"
 
 
 # EC2
