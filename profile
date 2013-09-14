@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Speedup terminal opening (maintenance operations)
+#   sudo rm -f /private/var/log/asl/*.asl /etc/paths.d/*
+#   > /etc/paths
+#   Use bash -l on login command in Terminal settings
+
+
 export CLICOLOR=1
 export LSCOLORS=exgxfxDxcxDxDxCxCxHbHb
 export EDITOR=vim
@@ -14,7 +20,11 @@ alias ls="ls -G"
 
 
 # Basic PATH (speedup path_helper)
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+
+[ -d "/opt/X11/bin" ] && PATH="${PATH}:/opt/X11/bin"
+[ -d "/usr/local/MacGPG2/bin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
+[ -d "/usr/texbin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
 
 # Homebrew
 # ========
@@ -32,13 +42,20 @@ PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 [ -f "${HOME}/.pystartup.py" ] && export PYTHONSTARTUP="${HOME}/.pystartup.py"
 [ -d "${HOME}/Work" ] && export PROJECT_HOME="${HOME}/Work"
 [ -d "${PROJECT_HOME}/_Environments" ] && export WORKON_HOME="${PROJECT_HOME}/_Environments"
-[ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_HOOK_DIR="${HOME}/.python"
-[ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_LOG_DIR="${HOME}/.python"
 export PYTHONPATH
 
-[ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && source "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
+# virtualenvwrapper
+[ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_HOOK_DIR="${HOME}/.python"
+[ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_LOG_DIR="${HOME}/.python"
+[ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
+[ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper_lazy.sh" ] && source "${HOMEBREW_HOME}/share/python/virtualenvwrapper_lazy.sh"
 p() { workon $(workon | sed -n "/^$1.*/p" | head -1); }
 c() { cdproject $*; }
+
+# pip
+export PIP_REQUIRE_VIRTUALENV=true
+[ -d "${HOME}/.pip/cache" ] && export PIP_DOWNLOAD_CACHE="${HOME}/.pip/cache"
+syspip() { PIP_REQUIRE_VIRTUALENV="" pip "$@"; }
 
 
 # Ruby
