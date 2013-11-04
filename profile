@@ -49,8 +49,10 @@ export PYTHONPATH
 [ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_LOG_DIR="${HOME}/.python"
 [ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
 [ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper_lazy.sh" ] && source "${HOMEBREW_HOME}/share/python/virtualenvwrapper_lazy.sh"
+[ -f "${HOMEBREW_HOME}/opt/autoenv/activate.sh" ] && source ${HOMEBREW_HOME}/opt/autoenv/activate.sh
 p() { workon $(workon | sed -n "/^$1.*/p" | head -1); }
 c() { cdproject $*; }
+
 
 # pip
 export PIP_REQUIRE_VIRTUALENV=true
