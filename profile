@@ -36,15 +36,14 @@ PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 # =========
 
 # Python
-[ -d "${HOMEBREW_HOME}/share/python" ] && PATH="${HOMEBREW_HOME}/share/python:$PATH"
 [ -d "/usr/local/google_appengine" ] && PYTHONPATH="/usr/local/google_appengine:/usr/local/google_appengine/lib"
 [ -d "${HOME}/.python" ] || mkdir -p "${HOME}/.python"
 [ -f "${HOME}/.pystartup.py" ] && export PYTHONSTARTUP="${HOME}/.pystartup.py"
-[ -d "${HOME}/Work" ] && export PROJECT_HOME="${HOME}/Work"
-[ -d "${PROJECT_HOME}/_Environments" ] && export WORKON_HOME="${PROJECT_HOME}/_Environments"
 export PYTHONPATH
 
 # virtualenvwrapper
+[ -d "${HOME}/Work" ] && export PROJECT_HOME="${HOME}/Work"
+[ -d "${HOME}/.virtualenvs" ] && export WORKON_HOME="${HOME}/.virtualenvs"
 [ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_HOOK_DIR="${HOME}/.python"
 [ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_LOG_DIR="${HOME}/.python"
 [ -f "${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh" ] && export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/share/python/virtualenvwrapper.sh"
@@ -53,6 +52,19 @@ export PYTHONPATH
 p() { workon $(workon | sed -n "/^$1.*/p" | head -1); }
 c() { cdproject $*; }
 
+newproject() {
+    project="$1"
+    [ -d "${WORKON_HOME}/${project}" ] && rm -rf "${WORKON_HOME}/${project}"
+    if [ -d "${PROJECT_HOME}/${project}" ]; then
+        mv "${PROJECT_HOME}/${project}" "${PROJECT_HOME}/${project}.tmp"
+        mkproject "${project}"
+        rm -rf "${PROJECT_HOME}/${project}"
+        mv "${PROJECT_HOME}/${project}.tmp" "${PROJECT_HOME}/${project}"
+        cd .
+    else
+        mkproject "${project}"
+    fi
+}
 
 # pip
 export PIP_REQUIRE_VIRTUALENV=true
