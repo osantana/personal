@@ -1,14 +1,13 @@
 import sys
 import atexit
 import os
-import readline
 import rlcompleter
 
 # Enable syntax completion
 try:
     import readline
 except ImportError:
-    print "Module readline not available."
+    print("Module readline not available.")
 else:
     import rlcompleter
     readline.parse_and_bind("tab: complete")
