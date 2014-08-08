@@ -70,6 +70,7 @@ newproject() {
 export PIP_REQUIRE_VIRTUALENV=true
 [ -d "${HOME}/.pip/cache" ] && export PIP_DOWNLOAD_CACHE="${HOME}/.pip/cache"
 syspip() { PIP_REQUIRE_VIRTUALENV="" pip "$@"; }
+syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
 
 # Ruby
@@ -103,8 +104,8 @@ export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
 # Powerline
 # =========
-_update_ps1() { export PS1="$(~/.powerline-shell.py --mode flat $?) "; }
-[ -x ~/.powerline-shell.py ] && export PROMPT_COMMAND="_update_ps1"
+#_update_ps1() { export PS1="$(~/.powerline-shell.py --mode flat $?) "; }
+#[ -x ~/.powerline-shell.py ] && export PROMPT_COMMAND="_update_ps1"
 
 
 # final export PATH changes
