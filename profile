@@ -79,10 +79,6 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
 
-# Javascript/Node.js
-[ -d "${HOMEBREW_HOME}/share/npm/bin" ] && PATH="${HOMEBREW_HOME}/share/npm/bin:${PATH}"
-
-
 # Local
 # =====
 [ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
