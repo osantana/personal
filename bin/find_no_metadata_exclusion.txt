@@ -1,0 +1,9 @@
+T[eE]AM
+LinG
+USILVSC
+BPMAC4
+\.tex
+\.pdf
+ACDSeePrint
+&#[0-9]*;
+DjVu
