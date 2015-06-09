@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pygmentize -f rtf -O "encoding=utf-8" "$1" | pbcopy
