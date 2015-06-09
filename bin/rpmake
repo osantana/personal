@@ -1,0 +1,251 @@
+#!/bin/bash
+#
+# Integrated Rpm Creator Tool Script
+# 0.0.1 - 20000108 - First version <osvaldo@conectiva.com>
+#                  - Thanks for verde666 <aurelio@conectiva.com>
+#
+# TODO configurable pager and text editor in rpmakerc
+#      last src.rpm in -s option
+
+#set -vx
+
+VERSION='0.0.1'
+USAGE='rpmake [-l | --log] [-e | --edit] [-i | --interactive]
+ [-p | --prepare] [-d | --diff <patchname>] [-c | --clear] 
+ [ -is | --installsrc ]
+ [package[.spec]]'
+
+# the sed blank pattern: <TAB><space> (\t doesn't work in old seds)
+s='[	 ]*'
+
+# Settings
+RPM='/usr/bin/rpmbuild'
+DIFF='/usr/bin/diff'
+APTGET='/usr/bin/apt-get'
+RPMAKEDIR="$HOME/.rpmake"
+RPMCONFIG="$HOME/.rpmmacros"
+ORIG_EXT='orig'
+PATCH_EXT='patch'
+SRCRPM='src.rpm'
+
+# Prepare configuration files.
+if [ ! -d "$RPMAKEDIR" ]; then
+	mkdir -p $RPMAKEDIR
+fi
+
+[ -f $RPMAKEDIR/rpmakerc ] || cat - > $RPMAKEDIR/rpmakerc << EOF
+releasesuffix: cl
+rpmdir: $HOME/rpm
+last: none.spec
+editor: vim
+EOF
+
+[ -f $RPMAKEDIR/template.spec ] || cat - > $RPMAKEDIR/template.spec << EOF
+Name: Test
+Version: 1
+Release: 1cl
+Summary: Test
+Group: teste
+License: GPL
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
+
+%description
+teste
+
+%post
+echo post %{version}-%{release}
+
+%postun
+echo postun %{version}-%{release}
+
+%files
+
+%changelog
+* Wek Mth 00 2000 Rpmake User <rpmake@rpmake.org>
+- Test
+EOF
+
+RPMAKERC=$RPMAKEDIR/rpmakerc
+TEMPLATE=$RPMAKEDIR/template.spec
+
+# Load Configuration Files
+RPMTOPDIR=`  sed -n "s/^${s}rpmdir$s:$s//Ip"   "$RPMAKERC"`
+SUFFIX_NAME=`sed -n "s/^${s}releasesuffix$s:$s//Ip"   "$RPMAKERC"`
+LASTSPEC=`   sed -n "s/^${s}last$s:$s//Ip"     "$RPMAKERC"`
+EDITOR=`     sed -n "s/^${s}editor$s:$s//Ip"     "$RPMAKERC"`
+: ${RPMTOPDIR:=$HOME/rpm}
+: ${SUFFIX_NAME:=cl}
+: ${EDITOR:=vim}
+
+if [ ! -f $RPMCONFIG ]; then
+cat - > $HOME/.rpmmacros << EOF
+%_topdir $RPMTOPDIR
+EOF
+fi
+
+# the defaults, case not found in rpm configuration files 
+: ${DIR_SPECS:=$RPMTOPDIR/SPECS}
+: ${DIR_LOGS:=$RPMTOPDIR/LOGS}
+: ${DIR_BUILD:=$RPMTOPDIR/BUILD}
+: ${DIR_SOURCES:=$RPMTOPDIR/SOURCES}
+: ${DIR_SRPMS:=$RPMTOPDIR/SRPMS}
+: ${DIR_RPMS:=$RPMTOPDIR/RPMS}
+
+if [ -d $RPMTOPDIR ]; then
+	[ -d $DIR_SPECS ] || mkdir -p $DIR_SPECS
+	[ -d $DIR_LOGS ] || mkdir -p $DIR_LOGS
+	[ -d $DIR_BUILD ] || mkdir -p $DIR_BUILD
+	[ -d $DIR_SOURCES ] || mkdir -p $DIR_SOURCES
+	[ -d $DIR_SRPMS ] || mkdir -p $DIR_SRPMS
+	[ -d $DIR_RPMS ] || mkdir -p $DIR_RPMS/{i386,i586,i686,noarch}
+fi
+
+# Parse command line arguments
+while [ "$1" ]
+do
+	case "$1" in
+		-*)
+			PARAM="$1"
+			shift
+			;;
+		*)
+			PARAM_FILE="$1"
+			shift
+			;;
+	esac
+	if [ "$PARAM_FILE" ]; then
+		PACKAGE=`basename $PARAM_FILE .spec`
+		unset PARAM_FILE
+		continue
+	fi
+	case "$PARAM" in
+		-h | --help )
+			echo $USAGE
+			exit 0
+			;;
+		-i | --interactive )
+			P_INTERACTIVE='1'
+			;;
+		-is | --installsrc )
+			P_INSTALLSRC='1'
+			DONTNEEDSPEC='1'
+			;;
+		-l | --log )
+			P_VIEWLOG='1'
+			DONTNEEDSPEC='1'
+			;;
+		-e | --edit )
+			P_EDIT='1'
+			;;
+		-p | --prepare )
+			P_PREPARE='1'
+			;;
+		-d | --diff)
+			P_DIFF='1'
+			P_DIFF_PATCH="$1"
+			if [ ! "$P_DIFF_PATCH" ]; then
+				echo $USAGE
+				exit 1
+			fi
+			shift
+			DONTNEEDSPEC='1'
+			;;
+		-c | --clear)
+			P_CLEAR='1'
+			DONTNEEDSPEC='1'
+			;;
+		-t | --test)
+			P_TEST='1'
+			;;
+		*)
+			echo $USAGE
+			exit 1
+			;;
+   esac                                                                         
+done                                             
+
+# Specfile (last?)
+if [ -z $PACKAGE ]; then
+	SPECNAME=$LASTSPEC
+	PACKAGE=`basename $SPECNAME .spec`
+	echo "Using last file: $SPECNAME"
+else
+	SPECNAME="$PACKAGE.spec"
+	cp $RPMAKERC $RPMAKERC.tmp
+	sed "s/^${s}last$s:.*/last: $SPECNAME/I" $RPMAKERC.tmp > $RPMAKERC
+	rm $RPMAKERC.tmp
+fi
+
+if [ ! "$DONTNEEDSPEC" ]; then
+	if [ ! -f "$DIR_SPECS/$SPECNAME" ]; then
+		echo "$DIR_SPECS/$SPECNAME not found..."
+		if [ "$P_INTERACTIVE" ]; then
+			read -p 'Create a template? [y/N] ' -n 1
+			REPLY=`echo $REPLY | sed 'y/YsS/yyy/'`
+			if [ "$REPLY" == 'y' ]; then
+				echo 'Copying template...'
+				cp -f $TEMPLATE $DIR_SPECS/$SPECNAME
+			else
+				exit 1
+			fi
+		else
+			exit 1
+		fi
+	fi
+fi
+### Commands ###
+
+# ViewLog
+if [ "$P_VIEWLOG" ]; then
+	less $DIR_LOGS/$PACKAGE.log
+	exit 0
+fi
+
+# Edit
+if [ "$P_EDIT" ]; then
+	$EDITOR $DIR_SPECS/$SPECNAME
+	exit 0
+fi
+
+# Prepare
+if [ "$P_PREPARE" ]; then
+	$RPM -bp $DIR_SPECS/$SPECNAME 2>&1 | tee $DIR_LOGS/$PACKAGE.log
+	BUILD_DIRNAME=`sed -n 's/^+ rm -rf //p' $DIR_LOGS/$PACKAGE.log`
+	[ -d $DIR_BUILD/$BUILD_DIRNAME.$ORIG_EXT ] && rm -rf $DIR_BUILD/$BUILD_DIRNAME.$ORIG_EXT
+	cp -a $DIR_BUILD/$BUILD_DIRNAME \
+          $DIR_BUILD/$BUILD_DIRNAME.$ORIG_EXT
+	exit 0
+fi
+
+# Diff
+if [ "$P_DIFF" ]; then
+	cd $DIR_BUILD
+	ORIG=`ls -ad $PACKAGE*$ORIG_EXT`
+	NEW=`basename $ORIG .$ORIG_EXT`
+	$DIFF -uNr $ORIG $NEW |
+        tee $DIR_SOURCES/$NEW-$P_DIFF_PATCH.$PATCH_EXT |
+        view -
+	cd -
+	exit 0
+fi
+
+# Clear
+if [ "$P_CLEAR" ]; then
+	if [ -d $DIR_BUILD/$PACKAGE*.$ORIG_EXT ]; then
+		rm -rf $DIR_BUILD/$PACKAGE*.$ORIG_EXT
+	else
+		echo 'Nothing to do...'
+		exit 1
+	fi
+	exit 0
+fi
+
+# Install Source
+if [ "$P_INSTALLSRC" ]; then
+	$APTGET source $PACKAGE
+	$RPM -ivh $PACKAGE*.$SRCRPM
+	rm -f $PACKAGE*.$SRCRPM
+	exit 0
+fi
+
+$RPM -ba $DIR_SPECS/$SPECNAME 2>&1 | tee $DIR_LOGS/$PACKAGE.log

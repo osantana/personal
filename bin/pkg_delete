@@ -1,0 +1,15 @@
+#!/usr/bin/perl -w
+
+@ARGV or die "Usage: pkg_delete <packageName>\n";
+
+my $pkg = $ARGV[0];
+my $archive = "/Library/Receipts/$pkg/Contents/Archive.bom";
+(-f $archive) or die "pkg_delete: package '$pkg' not found or name mismatched\n";
+open(CONTENT, "lsbom -f -l -p f '$archive'|");
+while (<CONTENT>) {
+    s/^\.//;
+    s/\(/\\(/g;
+    s/\)/\\)/g;
+    print or die "pkg_delete: can't remove $_";
+}
+close CONTENT;

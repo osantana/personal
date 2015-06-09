@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ext=$(echo $1 | rev | sed 's/\..*$//' | rev)
+mv $1 $(isbn.py --isbn10 "$2").$ext

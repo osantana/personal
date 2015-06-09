@@ -1,0 +1,5 @@
+#!/bin/bash
+
+d="."
+[ "$1" ] && d="$1"
+find $d -name "*.py[co]" -or -name "__pycache__" -exec rm -f {} \;

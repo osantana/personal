@@ -1,0 +1,17 @@
+#!/bin/bash
+
+rpm -qa --queryformat "%{name}\n" | sort | uniq -d > remover
+
+pacotes=""
+for rpm in `cat remover`; do
+	versoes=`rpm -q --queryformat "%{version}-%{release}\n" $rpm`
+	set - $versoes
+	rpmver $1 $2 > /dev/null
+	if [ "$?" = "1" ]; then
+		pacotes="$rpm-$2 $pacotes"
+	else
+		pacotes="$rpm-$1 $pacotes"
+	fi
+done
+rpm -e $pacotes
+rm -f remover

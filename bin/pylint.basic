@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pep8 -r --ignore=E501,E303 $*
+pyflakes $*
