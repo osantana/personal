@@ -19,6 +19,8 @@ SECRET_FILES="
 	.netrc
 	.transifexrc
 	.pypirc
+	.local/bin/genpass
+	.local/bin/webfactionbak
 "
 
 if [ ! -d "${HOME}/.secrets/.git" ]; then
