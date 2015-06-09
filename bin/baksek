@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -e
+
+SECRETS_DIR="${HOME}/.secrets"
+SECRETS_ARCHIVE="secrets-$(date +%Y%m%d).zip"
+ARCHIVES="${HOME}/Copy/Documents/Personal/keys"
+SECRET_FILES="
+	.ssh
+	.fabricrc
+	.gnupg
+	.ec2
+	.subversion
+	.subversion_IDEA
+	.boto
+	.fabricrc
+	.floorc.json
+	.hgrc
+	.netrc
+	.transifexrc
+	.pypirc
+"
+
+if [ ! -d "${HOME}/.secrets/.git" ]; then
+	mkdir -p "${HOME}/.secrets"
+	chmod 0700 "${HOME}/.secrets"
+	git init "${HOME}/.secrets"
+fi
+
+cd "$HOME"
+for secret in $SECRET_FILES; do
+	if [ -d "$secret" ]; then
+	    cp -r $secret/* "${SECRETS_DIR}/$(echo $secret | sed 's/^\.//')" | true 2> /dev/null
+	else
+	    cp "$secret" "${SECRETS_DIR}/$(echo $secret | sed 's/^\.//')" | true 2> /dev/null
+	fi
+done
+
+(cd "${HOME}/.secrets" && git add -A . | true && git commit -m "Daily update $(date +%Y%m%d)" | true) > /dev/null 2>&1
+
+zip -qr "${SECRETS_ARCHIVE}" "${SECRETS_DIR}"
+gpg -c "${SECRETS_ARCHIVE}"
+rm -f "${SECRETS_ARCHIVE}"
+mv "${SECRETS_ARCHIVE}.gpg" "${ARCHIVES}"
+
