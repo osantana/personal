@@ -2,4 +2,5 @@
 
 d="."
 [ "$1" ] && d="$1"
-find $d -name "*.py[co]" -or -name "__pycache__" -exec rm -f {} \;
+find $d -name "*.py[co]" -delete
+find $d -name "__pycache__" -delete
