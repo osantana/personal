@@ -44,10 +44,11 @@ export PYTHONPATH
 # virtualenvwrapper
 [ -d "${HOME}/Work" ] && export PROJECT_HOME="${HOME}/Work"
 [ -d "${HOME}/.virtualenvs" ] && export WORKON_HOME="${HOME}/.virtualenvs"
-[ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_HOOK_DIR="${HOME}/.python"
-[ -d "${HOME}/.python" ] && export VIRTUALENVWRAPPER_LOG_DIR="${HOME}/.python"
-[ -f "${HOMEBREW_HOME}/bin/virtualenvwrapper.sh" ] && export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/bin/virtualenvwrapper.sh"
-[ -f "${HOMEBREW_HOME}/bin/virtualenvwrapper_lazy.sh" ] && source "${HOMEBREW_HOME}/bin/virtualenvwrapper_lazy.sh"
+if [ -x "${HOMEBREW_HOME}/bin/virtualenvwrapper.sh" ]; then
+    export VIRTUALENVWRAPPER_PYTHON="$(which python3)"
+    export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/bin/virtualenvwrapper.sh"
+    source "${HOMEBREW_HOME}/bin/virtualenvwrapper_lazy.sh"
+fi
 p() { workon $(workon | sed -n "/^$1.*/p" | head -1); }
 c() { cdproject $*; }
 
