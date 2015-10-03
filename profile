@@ -54,15 +54,17 @@ c() { cdproject $*; }
 
 newproject() {
     project="$1"
+    pyver="${2:-3.5}"
+    echo "Python: $(which python${pyver})"
     [ -d "${WORKON_HOME}/${project}" ] && rm -rf "${WORKON_HOME}/${project}"
     if [ -d "${PROJECT_HOME}/${project}" ]; then
         mv "${PROJECT_HOME}/${project}" "${PROJECT_HOME}/${project}.tmp"
-        mkproject "${project}"
+	mkproject -p "$(which python${pyver})" "${project}"
         rm -rf "${PROJECT_HOME}/${project}"
         mv "${PROJECT_HOME}/${project}.tmp" "${PROJECT_HOME}/${project}"
         cd .
     else
-        mkproject "${project}"
+	mkproject -p "$(which python${pyver})" "${project}"
     fi
 }
 
@@ -87,6 +89,7 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 # Completions
 # ===========
 [ -f "${HOMEBREW_HOME}/etc/bash_completion" ] && source "${HOMEBREW_HOME}/etc/bash_completion"
+[ -d "${HOMEBREW_HOME}/etc/bash_completion.d" ] && source "${HOMEBREW_HOME}"/etc/bash_completion.d/*
 
 
 # EC2
@@ -96,12 +99,6 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
 export EC2_CERT="~/.ec2/cert.pem"
 export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
-
-
-# Powerline
-# =========
-#_update_ps1() { export PS1="$(~/.powerline-shell.py --mode flat $?) "; }
-#[ -x ~/.powerline-shell.py ] && export PROMPT_COMMAND="_update_ps1"
 
 
 # final export PATH changes
