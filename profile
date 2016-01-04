@@ -49,7 +49,7 @@ if [ -x "${HOMEBREW_HOME}/bin/virtualenvwrapper.sh" ]; then
     export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/bin/virtualenvwrapper.sh"
     source "${HOMEBREW_HOME}/bin/virtualenvwrapper_lazy.sh"
 fi
-p() { workon $(workon | sed -n "/^$1.*/p" | head -1); }
+p() { workon $(workon | sed -n "/^$(echo $1 | sed 's,/,,').*/p" | sort -ru | head -1); }
 c() { cdproject $*; }
 
 newproject() {
