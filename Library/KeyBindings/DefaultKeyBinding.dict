@@ -1,0 +1,17 @@
+{
+    /* home */
+    "\UF729" = "moveToBeginningOfLine:";
+    "$\UF729" = "moveToBeginningOfLineAndModifySelection:";
+
+    /* end */
+    "\UF72B"  = "moveToEndOfLine:";
+    "$\UF72B" = "moveToEndOfLineAndModifySelection:";
+
+    /* page up */
+    "\UF72C"  = "pageUp:";
+    "$\UF72C" = "pageUpAndModifySelection:";
+
+    /* page down */
+    "\UF72D"  = "pageDown:";
+    "$\UF72D" = "pageDownAndModifySelection:";
+}
