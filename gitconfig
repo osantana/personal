@@ -35,8 +35,6 @@
 	trustExitCode = true
 [push]
 	default = matching
-[credential]
-	helper = osxkeychain
 [help]
 	autocorrect = 1
 [filter "media"]
