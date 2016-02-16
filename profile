@@ -92,7 +92,7 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 [ -d "${HOMEBREW_HOME}/etc/bash_completion.d" ] && source "${HOMEBREW_HOME}"/etc/bash_completion.d/*
 
 
-# EC2
+# AWS
 # ===
 [ -d "${HOME}/.local/ec2-api-tools" ] && export EC2_HOME="${HOME}/.local/ec2-api-tools"
 [ -d "${HOME}/.local/ec2-api-tools" ] && export PATH="${EC2_HOME}/bin:${PATH}"
@@ -103,4 +103,3 @@ export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
 # final export PATH changes
 export PATH
-
