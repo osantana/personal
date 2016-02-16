@@ -100,6 +100,5 @@ export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
 export EC2_CERT="~/.ec2/cert.pem"
 export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
-
 # final export PATH changes
 export PATH
