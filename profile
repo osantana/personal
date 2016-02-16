@@ -5,31 +5,75 @@
 #   > /etc/paths
 #   Use bash -l on login command in Terminal settings
 
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
-export CLICOLOR=1
-export LSCOLORS=exgxfxDxcxDxDxCxCxHbHb
-export EDITOR=vim
-export LANG=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
+# Terminal
+shopt -s checkwinsize
 
-# Shortcuts
-# =========
+if [ "$(uname)" == "Darwin" ]; then
+    export LANG=en_US.UTF-8
+    export LC_CTYPE=en_US.UTF-8
+    export CLICOLOR=1
+    export LSCOLORS=exgxfxDxcxDxDxCxCxHbHb
+    alias ls="ls -G"
+else
+    [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+    if [ -x /usr/bin/dircolors ]; then
+        test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+        alias grep='grep --color=auto'
+        alias fgrep='fgrep --color=auto'
+        alias egrep='egrep --color=auto'
+        alias ls="ls --color=auto"
+    fi
+fi
+
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+if [ "$color_prompt" = yes ]; then
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='\u@\h:\w\$ '
+fi
+unset color_prompt
+
+
+# History
+# =======
+shopt -s histappend
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+
+# Aliases && Default
+# ==================
 alias mv="mv -i"
 alias cp="cp -i"
-alias ls="ls -G"
+
+export EDITOR=vim
 
 
 # Basic PATH (speedup path_helper)
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
-[ -d "/opt/X11/bin" ] && PATH="${PATH}:/opt/X11/bin"
-[ -d "/usr/local/MacGPG2/bin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
-[ -d "/usr/texbin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
+if [ "$(uname)" == "Darwin" ]; then
+    [ -d "/opt/X11/bin" ] && PATH="${PATH}:/opt/X11/bin"
+    [ -d "/usr/texbin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
+    [ -d "/usr/local/MacGPG2/bin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
+fi
+
 
 # Homebrew
 # ========
-export HOMEBREW_HOME="/usr/local"
-PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
+if [ "$(uname)" == "Darwin" ]; then
+    export HOMEBREW_HOME="/usr/local"
+    PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
+fi
 
 
 # Languages
@@ -80,6 +124,9 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
+[ -d "${HOME}/.local/jre" ] && export JAVA_HOME="${HOME}/.local/jre"
+PATH="${JAVA_HOME}/bin:${PATH}"
+
 
 # Local
 # =====
