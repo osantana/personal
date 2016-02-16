@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# Keep the original files in ~/.secrets directory
+# and make symlinks to them.
+
 set -e
 
 SECRETS_DIR="${HOME}/.secrets"
-SECRETS_ARCHIVE="secrets-$(date +%Y%m%d).zip"
-ARCHIVES="${HOME}/Copy/Documents/Personal/keys"
+SECRETS_ARCHIVE="secrets.zip"
+ARCHIVES="${HOME}/iCloud/Personal/keys"
 SECRET_FILES="
 	.ssh
 	.fabricrc
@@ -32,9 +35,9 @@ fi
 cd "$HOME"
 for secret in $SECRET_FILES; do
 	if [ -d "$secret" ]; then
-	    cp -r $secret/* "${SECRETS_DIR}/$(echo $secret | sed 's/^\.//')" | true 2> /dev/null
+	    cp -r $secret/* "${SECRETS_DIR}/$(echo $secret | sed 's/^\.//')" 2> /dev/null | true
 	else
-	    cp "$secret" "${SECRETS_DIR}/$(echo $secret | sed 's/^\.//')" | true 2> /dev/null
+	    cp "$secret" "${SECRETS_DIR}/$(echo $secret | sed 's/^\.//')" 2> /dev/null | true
 	fi
 done
 
