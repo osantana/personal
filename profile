@@ -75,6 +75,7 @@ if [ "$(uname)" == "Darwin" ]; then
     PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 fi
 
+[ -f "${HOME}/.secrets/misc/github.token" ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ${HOME}/.secrets/misc/github.token)"
 
 # Languages
 # =========
