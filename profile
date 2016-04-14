@@ -128,6 +128,10 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 [ -d "${HOME}/.local/jre" ] && export JAVA_HOME="${HOME}/.local/jre"
 PATH="${JAVA_HOME}/bin:${PATH}"
 
+# Go
+[ -d "${HOME}/.go" ] && export GOPATH="${HOME}/.go"
+[ -d "/usr/local/opt/go/libexec" ] && export GOROOT=/usr/local/opt/go/libexec
+PATH="${GOROOT}/bin:${GOPATH}/bin:${PATH}"
 
 # Local
 # =====
