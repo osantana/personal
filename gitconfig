@@ -1,6 +1,7 @@
 [user]
 	name = Osvaldo Santana Neto
 	email = github@osantana.me
+	signingkey = 35B453D3
 [color]
 	status = auto
 	diff = auto
@@ -10,6 +11,7 @@
 [alias]
 	st = status
 	ci = commit
+	cs = commit -S
 	co = checkout
 	br = branch
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short

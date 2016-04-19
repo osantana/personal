@@ -30,17 +30,25 @@ else
     fi
 fi
 
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
+# Prompt
+function _update_ps1() {
+    PS1="$(~/Work/personal/powerline-shell/powerline-shell.py $? 2> /dev/null)"
+}
 
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+if [ -d "${HOME}/Work/personal/powerline-shell" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 else
-    PS1='\u@\h:\w\$ '
-fi
-unset color_prompt
+    case "$TERM" in
+        xterm-color|*-256color) color_prompt=yes;;
+    esac
 
+    if [ "$color_prompt" = yes ]; then
+        PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    else
+        PS1='\u@\h:\w\$ '
+    fi
+    unset color_prompt
+fi
 
 # History
 # =======
@@ -75,6 +83,7 @@ if [ "$(uname)" == "Darwin" ]; then
     PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 fi
 
+[ -f "${HOME}/.secrets/misc/github.token" ] && export HOMEBREW_GITHUB_API_TOKEN="$(cat ${HOME}/.secrets/misc/github.token)"
 
 # Languages
 # =========
@@ -93,7 +102,7 @@ if [ -x "${HOMEBREW_HOME}/bin/virtualenvwrapper.sh" ]; then
     export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/bin/virtualenvwrapper.sh"
     source "${HOMEBREW_HOME}/bin/virtualenvwrapper_lazy.sh"
 fi
-p() { workon $(workon | sed -n "/^$(echo $1 | sed 's,/,,').*/p" | sort -ru | head -1); }
+p() { workon $(workon | sed -n "/^$(echo $1 | sed 's,/,,').*/p" | sort -u | head -1); }
 c() { cdproject $*; }
 
 newproject() {
@@ -127,6 +136,10 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 [ -d "${HOME}/.local/jre" ] && export JAVA_HOME="${HOME}/.local/jre"
 PATH="${JAVA_HOME}/bin:${PATH}"
 
+# Go
+[ -d "${HOME}/.go" ] && export GOPATH="${HOME}/.go"
+[ -d "/usr/local/opt/go/libexec" ] && export GOROOT=/usr/local/opt/go/libexec
+PATH="${GOROOT}/bin:${GOPATH}/bin:${PATH}"
 
 # Local
 # =====
@@ -139,7 +152,7 @@ PATH="${JAVA_HOME}/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/etc/bash_completion.d" ] && source "${HOMEBREW_HOME}"/etc/bash_completion.d/*
 
 
-# EC2
+# AWS
 # ===
 [ -d "${HOME}/.local/ec2-api-tools" ] && export EC2_HOME="${HOME}/.local/ec2-api-tools"
 [ -d "${HOME}/.local/ec2-api-tools" ] && export PATH="${EC2_HOME}/bin:${PATH}"
@@ -147,7 +160,5 @@ export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
 export EC2_CERT="~/.ec2/cert.pem"
 export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
-
 # final export PATH changes
 export PATH
-
