@@ -1,6 +1,7 @@
 .DS_Store
-*.py[co]
+*.py[cod]
 *.tmproj
 *~
 *.swp*
 .idea
+.env
