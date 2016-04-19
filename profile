@@ -30,17 +30,25 @@ else
     fi
 fi
 
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
+# Prompt
+function _update_ps1() {
+    PS1="$(~/Work/personal/powerline-shell/powerline-shell.py $? 2> /dev/null)"
+}
 
-if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+if [ -d "${HOME}/Work/personal/powerline-shell" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 else
-    PS1='\u@\h:\w\$ '
-fi
-unset color_prompt
+    case "$TERM" in
+        xterm-color|*-256color) color_prompt=yes;;
+    esac
 
+    if [ "$color_prompt" = yes ]; then
+        PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    else
+        PS1='\u@\h:\w\$ '
+    fi
+    unset color_prompt
+fi
 
 # History
 # =======
