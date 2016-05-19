@@ -124,7 +124,7 @@ newproject() {
 # pip
 export PIP_REQUIRE_VIRTUALENV=true
 [ -d "${HOME}/.pip/cache" ] && export PIP_DOWNLOAD_CACHE="${HOME}/.pip/cache"
-syspip() { PIP_REQUIRE_VIRTUALENV="" pip "$@"; }
+syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
 syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
 
