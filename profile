@@ -127,6 +127,8 @@ export PIP_REQUIRE_VIRTUALENV=true
 syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
 syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
+# pyenv
+which pyenv > /dev/null && eval "$(pyenv init -)"
 
 # Ruby
 [ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
