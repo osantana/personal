@@ -151,7 +151,6 @@ PATH="${GOROOT}/bin:${GOPATH}/bin:${PATH}"
 # Completions
 # ===========
 [ -f "${HOMEBREW_HOME}/etc/bash_completion" ] && source "${HOMEBREW_HOME}/etc/bash_completion"
-[ -d "${HOMEBREW_HOME}/etc/bash_completion.d" ] && source "${HOMEBREW_HOME}"/etc/bash_completion.d/*
 
 
 # AWS
