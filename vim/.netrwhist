@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Applications/openMSX.app/share'
-let g:netrw_dirhist_2='/Applications/openMSX.app/share/machines'
-let g:netrw_dirhist_3='/Applications/openMSX.app/share/machines/Gradiente_Expert_DDPlus'
-let g:netrw_dirhist_4='/Applications/openMSX.app/share/machines'
-let g:netrw_dirhist_5='/Applications/openMSX.app/share/machines/C-BIOS_MSX1_BR'
-let g:netrw_dirhist_6='/Applications/openMSX.app/share/machines/C-BIOS_MSX1_BR/roms'
-let g:netrw_dirhist_7='/Applications/openMSX.app/share/machines/C-BIOS_MSX1_BR'
