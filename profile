@@ -163,3 +163,5 @@ export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
 # final export PATH changes
 export PATH
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
