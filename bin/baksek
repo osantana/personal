@@ -43,7 +43,7 @@ done
 
 (cd "${HOME}/.secrets" && git add -A . | true && git commit -m "Daily update $(date +%Y%m%d)" | true) > /dev/null 2>&1
 
-zip -qr "${SECRETS_ARCHIVE}" "${SECRETS_DIR}"
+zip -x \*.gpg-agent -q -r "${SECRETS_ARCHIVE}" "${SECRETS_DIR}"
 gpg -c "${SECRETS_ARCHIVE}"
 rm -f "${SECRETS_ARCHIVE}"
 mv "${SECRETS_ARCHIVE}.gpg" "${ARCHIVES}"
