@@ -128,7 +128,11 @@ syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
 syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
 # pyenv
-which pyenv > /dev/null && eval "$(pyenv init -)"
+if which pyenv > /dev/null; then
+    export PYENV_ROOT=/usr/local/var/pyenv
+    export PATH="/usr/local/var/pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+fi
 
 # Ruby
 [ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
@@ -141,7 +145,7 @@ PATH="${JAVA_HOME}/bin:${PATH}"
 # Go
 [ -d "${HOME}/.go" ] && export GOPATH="${HOME}/.go"
 [ -d "/usr/local/opt/go/libexec" ] && export GOROOT=/usr/local/opt/go/libexec
-PATH="${GOROOT}/bin:${GOPATH}/bin:${PATH}"
+PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
 
 # Local
 # =====
@@ -155,13 +159,20 @@ PATH="${GOROOT}/bin:${GOPATH}/bin:${PATH}"
 
 # AWS
 # ===
-[ -d "${HOME}/.local/ec2-api-tools" ] && export EC2_HOME="${HOME}/.local/ec2-api-tools"
-[ -d "${HOME}/.local/ec2-api-tools" ] && export PATH="${EC2_HOME}/bin:${PATH}"
+[ -d "${HOME}/.local/ec2-api-tools" ] && EC2_HOME="${HOME}/.local/ec2-api-tools"
+[ -d "${HOME}/.local/ec2-api-tools" ] && PATH="${EC2_HOME}/bin:${PATH}"
 export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
 export EC2_CERT="~/.ec2/cert.pem"
 export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
+# iTerm2
+[ -e "${HOME}/.iterm2_shell_integration.bash" ] && source "${HOME}/.iterm2_shell_integration.bash"
+
+# Misc
+# ====
+
+# gpg aliases
+[ -d "${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin" ] && PATH="${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin:${PATH}"
+
 # final export PATH changes
 export PATH
-
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
