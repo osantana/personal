@@ -1,3 +1,5 @@
 .hg
 *.py[cod]
 vim/.netrwhist
+vim/bundle
+vim/autoload
