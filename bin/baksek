@@ -7,7 +7,7 @@ set -e
 
 SECRETS_DIR="${HOME}/.secrets"
 SECRETS_ARCHIVE="secrets.zip"
-ARCHIVES="${HOME}/iCloud/Personal/keys"
+ARCHIVES="${HOME}/Documents/Personal/keys"
 SECRET_FILES="
 	.ssh
 	.fabricrc
