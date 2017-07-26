@@ -6,8 +6,16 @@
 	status = auto
 	diff = auto
 	branch = auto
-	ui = auto
+	interactive = auto
+	ui = true
+	pager = true
 	grep = auto
+[color "status"]
+	added = green
+	changed = red bold
+	untracked = magenta bold
+[color "branch"]
+	remote = yellow
 [alias]
 	st = status
 	ci = commit
@@ -19,6 +27,7 @@
 	dump = cat-file -p
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	webui = !/Users/osantana/.git-webui/release/libexec/git-core/git-webui
+	praise = blame
 [merge]
 	tool = opendiff
 	conflictstyle = diff3

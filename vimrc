@@ -12,11 +12,11 @@ map <leader>dt :set makeprg=nosetests\|:call MakeGreen()<CR>
 let g:pyflakes_use_quickfix = 0
 let g:pep8_map='<leader>8'
 
-set statusline=%<%f\ %h%m%r%y%=%-15.{fugitive#statusline()}\ %-14.(%l,%c%V%)\ %P
+" set statusline=%<%f\ %h%m%r%y%=%-15.{fugitive#statusline()}\ %-14.(%l,%c%V%)\ %P
 
 " Load and configure pathogen
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+" call pathogen#runtime_append_all_bundles()
+" call pathogen#helptags()
 
 " Color (light bg)
 set background=light

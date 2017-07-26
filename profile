@@ -176,3 +176,16 @@ export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
 
 # final export PATH changes
 export PATH
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+export HEROKU_API_KEY=4c3cf7e7-a4d0-47e4-bb99-912d823d54b4
+export GITHUB_TOKEN=c439f3c8d3ce9d56cdfc5114eb27a30b38687193
+
+
+# pyenv
+export PATH="/home/osantana/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+pyenv virtualenvwrapper_lazy
