@@ -32,10 +32,10 @@ fi
 
 # Prompt
 function _update_ps1() {
-    PS1="$(~/Work/personal/powerline-shell/powerline-shell.py $? 2> /dev/null)"
+    PS1="$(~/Work/personal/powerline-shell/.venv/bin/powerline-shell $? 2> /dev/null)"
 }
 
-if [ -d "${HOME}/Work/personal/powerline-shell" ]; then
+if [ -x "${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 else
     case "$TERM" in
@@ -48,6 +48,7 @@ else
         PS1='\u@\h:\w\$ '
     fi
     unset color_prompt
+    echo "You could install powerline-shell in ${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell" >&2
 fi
 
 # History
@@ -180,7 +181,10 @@ export PATH
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-export HEROKU_API_KEY=4c3cf7e7-a4d0-47e4-bb99-912d823d54b4
+if [ -f "${HOME}/.herokurc" ]; then
+    export HEROKU_API_KEY=$(cat ${HOME}/.herokurc)
+fi
+
 export GITHUB_TOKEN=c439f3c8d3ce9d56cdfc5114eb27a30b38687193
 
 
