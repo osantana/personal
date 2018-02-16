@@ -31,11 +31,12 @@ else
 fi
 
 # Prompt
+powerline="${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell"
 function _update_ps1() {
-    PS1="$(~/Work/personal/powerline-shell/.venv/bin/powerline-shell $? 2> /dev/null)"
+    PS1="$(${powerline} $? 2> /dev/null)"
 }
 
-if [ -x "${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell" ]; then
+if [ -x "${powerline}" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 else
     case "$TERM" in
@@ -48,7 +49,7 @@ else
         PS1='\u@\h:\w\$ '
     fi
     unset color_prompt
-    echo "You could install powerline-shell in ${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell" >&2
+    echo "You could install powerline-shell in ${powerline}" >&2
 fi
 
 # History
