@@ -183,11 +183,13 @@ export PATH
 export PATH="/usr/local/heroku/bin:$PATH"
 
 if [ -f "${HOME}/.herokurc" ]; then
-    export HEROKU_API_KEY=$(cat ${HOME}/.herokurc)
+    export HEROKU_API_KEY=$(sed -n '/^\s*token/s/.*=//p' ~/.herokurc)
 fi
 
-export GITHUB_TOKEN=c439f3c8d3ce9d56cdfc5114eb27a30b38687193
-
+# github
+if [ -f "${HOME}/.githubrc" ]; then
+	export GITHUB_TOKEN=$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)
+fi
 
 # pyenv
 export PATH="/home/osantana/.pyenv/bin:$PATH"
