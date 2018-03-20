@@ -22,6 +22,7 @@
 	cs = commit -S
 	co = checkout
 	br = branch
+	cp = cherry-pick
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	type = cat-file -t
 	dump = cat-file -p
