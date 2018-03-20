@@ -31,11 +31,12 @@ else
 fi
 
 # Prompt
+powerline="${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell"
 function _update_ps1() {
-    PS1="$(~/Work/personal/powerline-shell/.venv/bin/powerline-shell $? 2> /dev/null)"
+    PS1="$(${powerline} $? 2> /dev/null)"
 }
 
-if [ -x "${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell" ]; then
+if [ -x "${powerline}" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 else
     case "$TERM" in
@@ -48,7 +49,7 @@ else
         PS1='\u@\h:\w\$ '
     fi
     unset color_prompt
-    echo "You could install powerline-shell in ${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell" >&2
+    echo "You could install powerline-shell in ${powerline}" >&2
 fi
 
 # History
@@ -182,11 +183,13 @@ export PATH
 export PATH="/usr/local/heroku/bin:$PATH"
 
 if [ -f "${HOME}/.herokurc" ]; then
-    export HEROKU_API_KEY=$(cat ${HOME}/.herokurc)
+    export HEROKU_API_KEY=$(sed -n '/^\s*token/s/.*=//p' ~/.herokurc)
 fi
 
-export GITHUB_TOKEN=c439f3c8d3ce9d56cdfc5114eb27a30b38687193
-
+# github
+if [ -f "${HOME}/.githubrc" ]; then
+	export GITHUB_TOKEN=$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)
+fi
 
 # pyenv
 export PATH="/home/osantana/.pyenv/bin:$PATH"
