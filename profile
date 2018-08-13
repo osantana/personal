@@ -161,11 +161,9 @@ PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
 
 # AWS
 # ===
-[ -d "${HOME}/.local/ec2-api-tools" ] && EC2_HOME="${HOME}/.local/ec2-api-tools"
-[ -d "${HOME}/.local/ec2-api-tools" ] && PATH="${EC2_HOME}/bin:${PATH}"
 export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
 export EC2_CERT="~/.ec2/cert.pem"
-export EC2_URL="ec2.ap-southeast-1.amazonaws.com"
+export AWS_PROFILE="osvaldo-olist"
 
 # iTerm2
 [ -e "${HOME}/.iterm2_shell_integration.bash" ] && source "${HOME}/.iterm2_shell_integration.bash"
