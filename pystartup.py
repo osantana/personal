@@ -43,5 +43,3 @@ atexit.register(save_history)
 
 del os, atexit, readline, rlcompleter, save_history, historyPath
 del historyTmp, endMarkerStr, saveMacro
-
-

@@ -29,6 +29,8 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	webui = !/Users/osantana/.git-webui/release/libexec/git-core/git-webui
 	praise = blame
+	co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
+
 [merge]
 	tool = opendiff
 	conflictstyle = diff3
