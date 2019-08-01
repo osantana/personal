@@ -173,11 +173,11 @@ export AWS_PROFILE="osvaldo-olist"
 # gpg aliases
 [ -d "${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin" ] && PATH="${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin:${PATH}"
 
-# final export PATH changes
-export PATH
+# qt
+PATH="/usr/local/opt/qt/bin:$PATH"
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+# heroku
+PATH="/usr/local/heroku/bin:$PATH"
 
 if [ -f "${HOME}/.herokurc" ]; then
     export HEROKU_API_KEY=$(sed -n '/^\s*token/s/.*=//p' ~/.herokurc)
@@ -193,3 +193,14 @@ export PATH="/home/osantana/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 pyenv virtualenvwrapper_lazy
+
+# final export PATH changes
+export PATH
+
+
+# For compilers to find zlib you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/zlib/include"
+
+# For pkg-config to find zlib you may need to set:
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"
