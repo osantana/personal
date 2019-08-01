@@ -189,7 +189,7 @@ if [ -f "${HOME}/.githubrc" ]; then
 fi
 
 # pyenv
-export PATH="/home/osantana/.pyenv/bin:$PATH"
+PATH="/home/osantana/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 pyenv virtualenvwrapper_lazy
