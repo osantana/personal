@@ -136,6 +136,7 @@ fi
 
 # Ruby
 [ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
+[ -d "${HOME}/.gem/ruby/2.3.0/bin" ] && PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
