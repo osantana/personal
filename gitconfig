@@ -53,7 +53,5 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[commit]
-	template = /Users/osantana/.stCommitMsg
 [webui]
 	autoupdate = true
