@@ -128,15 +128,19 @@ newproject() {
 }
 
 # pip
-export PIP_REQUIRE_VIRTUALENV=true
 [ -d "${HOME}/.pip/cache" ] && export PIP_DOWNLOAD_CACHE="${HOME}/.pip/cache"
 syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
 syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
 # pyenv
-if which pyenv > /dev/null; then
+if [ -d "${HOME}/.pyenv" ]; then
+    export PYENV_ROOT="${HOME}/.pyenv"
+    export PATH="${PYENV_ROOT}/bin:$PATH"
+else
     export PYENV_ROOT=/usr/local/var/pyenv
     export PATH="/usr/local/var/pyenv/bin:$PATH"
+fi
+if which pyenv > /dev/null; then
     eval "$(pyenv init -)"
 fi
 
