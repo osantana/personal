@@ -145,7 +145,8 @@ if which pyenv > /dev/null; then
 fi
 
 # Ruby
-[ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
+[ -d "${HOME}/.gem" ] && export GEM_HOME="${HOME}/.gem"
+[ -d "${HOME}/.gem" ] && PATH="${GEM_HOME}/bin:${PATH}"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
