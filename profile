@@ -77,6 +77,10 @@ if [ "$(uname)" == "Darwin" ]; then
     [ -d "/usr/local/MacGPG2/bin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
 fi
 
+# github
+if [ -f "${HOME}/.githubrc" ]; then
+	export GITHUB_TOKEN=$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)
+fi
 
 # Homebrew
 # ========
@@ -85,7 +89,7 @@ if [ "$(uname)" == "Darwin" ]; then
     PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 fi
 
-[ -f "${HOME}/.secrets/misc/github.token" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)"
+[ -f "${HOME}/.secrets/misc/github.token" -a -f "${HOME}/.githubrc" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' "${HOME}/.githubrc")"
 
 # Languages
 # =========
@@ -182,11 +186,6 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 if [ -f "${HOME}/.herokurc" ]; then
     export HEROKU_API_KEY=$(sed -n '/^\s*token/s/.*=//p' ~/.herokurc)
-fi
-
-# github
-if [ -f "${HOME}/.githubrc" ]; then
-	export GITHUB_TOKEN=$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)
 fi
 
 # pyenv
