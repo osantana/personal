@@ -146,7 +146,7 @@ fi
 
 # Ruby
 [ -d "${HOME}/.gem" ] && export GEM_HOME="${HOME}/.gem"
-[ -d "${HOME}/.gem" ] && PATH="${GEM_HOME}/bin:${PATH}"
+[ -d "${GEM_HOME}/ruby/2.5.0/bin" ] && PATH="${GEM_HOME}/ruby/2.5.0/bin:${PATH}"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
