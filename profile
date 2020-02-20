@@ -77,6 +77,10 @@ if [ "$(uname)" == "Darwin" ]; then
     [ -d "/usr/local/MacGPG2/bin" ] && PATH="${PATH}:/usr/local/MacGPG2/bin"
 fi
 
+# github
+if [ -f "${HOME}/.githubrc" ]; then
+	export GITHUB_TOKEN=$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)
+fi
 
 # Homebrew
 # ========
@@ -85,7 +89,7 @@ if [ "$(uname)" == "Darwin" ]; then
     PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
 fi
 
-[ -f "${HOME}/.secrets/misc/github.token" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)"
+[ -f "${HOME}/.secrets/misc/github.token" -a -f "${HOME}/.githubrc" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' "${HOME}/.githubrc")"
 
 # Languages
 # =========
@@ -123,20 +127,27 @@ newproject() {
     fi
 }
 
+# pip
 [ -d "${HOME}/.pip/cache" ] && export PIP_DOWNLOAD_CACHE="${HOME}/.pip/cache"
 syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
 syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
 # pyenv
-if which pyenv > /dev/null; then
+if [ -d "${HOME}/.pyenv" ]; then
+    export PYENV_ROOT="${HOME}/.pyenv"
+    export PATH="${PYENV_ROOT}/bin:$PATH"
+else
     export PYENV_ROOT=/usr/local/var/pyenv
     export PATH="/usr/local/var/pyenv/bin:$PATH"
+fi
+if which pyenv > /dev/null; then
     eval "$(pyenv init -)"
 fi
 
 # Ruby
 [ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
-[ -d "${HOME}/.gem/ruby/2.3.0/bin" ] && PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH"
+[ -d "${HOME}/.gem" ] && export GEM_HOME="${HOME}/.gem"
+[ -d "${GEM_HOME}/ruby/2.5.0/bin" ] && PATH="${GEM_HOME}/ruby/2.5.0/bin:${PATH}"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
@@ -155,7 +166,16 @@ PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
 
 # Completions
 # ===========
-[ -f "${HOME}/.bash_completion" ] && source "${HOME}/.bash_completion"
+if [ -f "${HOME}/.bash_completion" ]; then
+    source "${HOME}/.bash_completion"
+else
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        source /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        source /etc/bash_completion
+    fi
+fi
+
 
 
 # AWS
@@ -181,11 +201,6 @@ PATH="/usr/local/heroku/bin:$PATH"
 
 if [ -f "${HOME}/.herokurc" ]; then
     export HEROKU_API_KEY=$(sed -n '/^\s*token/s/.*=//p' ~/.herokurc)
-fi
-
-# github
-if [ -f "${HOME}/.githubrc" ]; then
-	export GITHUB_TOKEN=$(sed -n '/^\s*token/s/.*=//p' ~/.githubrc)
 fi
 
 # pyenv
