@@ -32,7 +32,7 @@
 	co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
 
 [merge]
-	tool = opendiff
+	tool = vimdiff
 	conflictstyle = diff3
 [core]
 	legacyheaders = false
@@ -57,3 +57,5 @@
 	smudge = git-media-smudge %f
 [webui]
 	autoupdate = true
+[diff]
+	tool = vimdiff

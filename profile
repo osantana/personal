@@ -91,6 +91,13 @@ fi
 
 [ -f "${HOME}/.secrets/misc/github.token" -a -f "${HOME}/.githubrc" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' "${HOME}/.githubrc")"
 
+# Kegs
+[ -d "${HOMEBREW_HOME}/opt/gettext/bin" ] &&     PATH="${HOMEBREW_HOME}/opt/gettext/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/opt/tcl-tk/bin" ] &&      PATH="${HOMEBREW_HOME}/opt/tcl-tk/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/opt/openssl@1.1/bin" ] && PATH="${HOMEBREW_HOME}/opt/openssl@1.1/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/opt/sqlite/bin" ] && PATH="${HOMEBREW_HOME}/opt/sqlite/bin:${PATH}"
+
+
 # Languages
 # =========
 
@@ -144,10 +151,13 @@ if which pyenv > /dev/null; then
     eval "$(pyenv init -)"
 fi
 
+
 # Ruby
 [ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
 [ -d "${HOME}/.gem" ] && export GEM_HOME="${HOME}/.gem"
 [ -d "${GEM_HOME}/ruby/2.5.0/bin" ] && PATH="${GEM_HOME}/ruby/2.5.0/bin:${PATH}"
+[ -d "/usr/local/opt/ruby/bin" ] && PATH="/usr/local/opt/ruby/bin:${PATH}"
+[ -d "/usr/local/lib/ruby/gems/2.6.0/bin" ] && PATH="/usr/local/lib/ruby/gems/2.6.0/bin:${PATH}"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
