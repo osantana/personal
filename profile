@@ -165,7 +165,16 @@ PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
 
 # Completions
 # ===========
-[ -f "${HOME}/.bash_completion" ] && source "${HOME}/.bash_completion"
+if [ -f "${HOME}/.bash_completion" ]; then
+    source "${HOME}/.bash_completion"
+else
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        source /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        source /etc/bash_completion
+    fi
+fi
+
 
 
 # AWS
