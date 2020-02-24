@@ -83,7 +83,6 @@ if [ -f "${HOME}/.githubrc" ]; then
 fi
 
 # Homebrew
-# ========
 if [ "$(uname)" == "Darwin" ]; then
     export HOMEBREW_HOME="/usr/local"
     PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
