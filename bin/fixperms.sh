@@ -9,5 +9,5 @@ if [ "$1" == "--owner" ]; then
     shift
 fi
 
-find "$1" -type d -exec chmod $DIRPERM {} \;
-find "$1" -type f -exec chmod $FILEPERM {} \;
+find "$1" -print -type d -exec chmod $DIRPERM {} \;
+find "$1" -print -type f -exec chmod $FILEPERM {} \;
