@@ -93,9 +93,9 @@ fi
 # Kegs
 [ -d "${HOMEBREW_HOME}/opt/gettext/bin" ] &&     PATH="${HOMEBREW_HOME}/opt/gettext/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/opt/tcl-tk/bin" ] &&      PATH="${HOMEBREW_HOME}/opt/tcl-tk/bin:${PATH}"
-[ -d "${HOMEBREW_HOME}/opt/openssl@1.1/bin" ] && PATH="${HOMEBREW_HOME}/opt/openssl@1.1/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/opt/sqlite/bin" ] && PATH="${HOMEBREW_HOME}/opt/sqlite/bin:${PATH}"
-
+[ -d "/usr/local/opt/openssl@1.1/bin" ] && PATH="/usr/local/opt/openssl@1.1/bin:${PATH}"
+[ -d "/usr/local/opt/openssl@1.1/lib" ] && export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH:+${DYLD_LIBRARY_PATH}:}/usr/local/opt/openssl@1.1/lib"
 
 # Languages
 # =========
