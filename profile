@@ -199,9 +199,6 @@ export AWS_PROFILE="osvaldo-olist"
 [ -d "${ANDROID_HOME}/tools/bin" ] && PATH="${ANDROID_HOME}/tools/bin:${PATH}"
 [ -d "${ANDROID_HOME}/platform-tools" ] && PATH="${ANDROID_HOME}/platform-tools:${PATH}"
 
-# React Native
-PATH="${PATH}:./node_modules/.bin"
-
 # Misc
 # ====
 
