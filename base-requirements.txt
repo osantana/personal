@@ -1,0 +1,9 @@
+appdirs
+distlib
+filelock
+pbr
+six
+stevedore
+virtualenv
+virtualenv-clone
+virtualenvwrapper
