@@ -202,9 +202,6 @@ export AWS_PROFILE="osvaldo-olist"
 # React Native
 PATH="${PATH}:./node_modules/.bin"
 
-# iTerm2
-[ -e "${HOME}/.iterm2_shell_integration.bash" ] && source "${HOME}/.iterm2_shell_integration.bash"
-
 # Misc
 # ====
 
