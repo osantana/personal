@@ -171,11 +171,11 @@ fi
 
 
 # Ruby
-[ -d "${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin" ] && PATH="${HOMEBREW_HOME}/Cellar/ruby/1.9.3-p362/bin:$PATH"
+RUBY_VER="2.7.0"
 [ -d "${HOME}/.gem" ] && export GEM_HOME="${HOME}/.gem"
-[ -d "${GEM_HOME}/ruby/2.5.0/bin" ] && PATH="${GEM_HOME}/ruby/2.5.0/bin:${PATH}"
-[ -d "/usr/local/opt/ruby/bin" ] && PATH="/usr/local/opt/ruby/bin:${PATH}"
-[ -d "/usr/local/lib/ruby/gems/2.6.0/bin" ] && PATH="/usr/local/lib/ruby/gems/2.6.0/bin:${PATH}"
+[ -d "${GEM_HOME}/bin" ] && PATH="${GEM_HOME}/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/opt/ruby/bin" ] && PATH="${HOMEBREW_HOME}/opt/ruby/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/lib/ruby/gems/${RUBY_VER}/bin" ] && PATH="${HOMEBREW_HOME}/lib/ruby/gems/${RUBY_VER}/bin:${PATH}"
 
 # Java
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
