@@ -58,7 +58,16 @@
 	tool = vimdiff
 [user]
 	useConfigOnly = true
+	name = Osvaldo Santana Neto
+	email = github@osantana.me
 [user "github"]
 	name = Osvaldo Santana Neto
 	email = github@osantana.me
 	signingkey = 5AAEA8B535B453D3
+[pull]
+	rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
