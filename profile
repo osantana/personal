@@ -31,7 +31,7 @@ else
 fi
 
 # Prompt
-powerline="${HOME}/Work/personal/powerline-shell/.venv/bin/powerline-shell"
+powerline="${HOME}/Work/personal/.venv/bin/powerline-shell"
 function _update_ps1() {
     PS1="$(${powerline} $? 2> /dev/null)"
 }
