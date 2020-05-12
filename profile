@@ -91,11 +91,29 @@ fi
 [ -f "${HOME}/.secrets/misc/github.token" -a -f "${HOME}/.githubrc" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' "${HOME}/.githubrc")"
 
 # Kegs
-[ -d "${HOMEBREW_HOME}/opt/gettext/bin" ] &&     PATH="${HOMEBREW_HOME}/opt/gettext/bin:${PATH}"
-[ -d "${HOMEBREW_HOME}/opt/tcl-tk/bin" ] &&      PATH="${HOMEBREW_HOME}/opt/tcl-tk/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/opt/gettext/bin" ] && PATH="${HOMEBREW_HOME}/opt/gettext/bin:${PATH}"
+[ -d "${HOMEBREW_HOME}/opt/tcl-tk/bin" ] && PATH="${HOMEBREW_HOME}/opt/tcl-tk/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/opt/sqlite/bin" ] && PATH="${HOMEBREW_HOME}/opt/sqlite/bin:${PATH}"
-[ -d "/usr/local/opt/openssl@1.1/bin" ] && PATH="/usr/local/opt/openssl@1.1/bin:${PATH}"
-[ -d "/usr/local/opt/openssl@1.1/lib" ] && export DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH:+${DYLD_LIBRARY_PATH}:}/usr/local/opt/openssl@1.1/lib"
+
+
+# OpenSSL Keg
+OPENSSL_ROOTDIR="${HOMEBREW_HOME}/opt/openssl@1.1"
+if [ -d "${OPENSSL_ROOTDIR}" ]; then
+	PATH="/usr/local/opt/openssl@1.1/bin:${PATH}"
+	DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH:+${DYLD_LIBRARY_PATH}:}${OPENSSL_ROOTDIR}/lib"
+	PKG_CONFIG_PATH="${PKG_CONFIG_PATH+${PKG_CONFIG_PATH}:}${OPENSSL_ROOTDIR}/lib/pkgconfig"
+	LDFLAGS="${LDFLAGS} -L${OPENSSL_ROOTDIR}/lib"
+	CPPFLAGS="${CPPFLAGS} -I${OPENSSL_ROOTDIR}/include"
+fi
+
+# Zlib Keg
+ZLIB_ROOTDIR="${HOMEBREW_HOME}/opt/zlib"
+if [ -d "${ZLIB_ROOTDIR}" ]; then
+	LDFLAGS="${LDFLAGS}   -L${ZLIB_ROOTDIR}/lib"
+	CPPFLAGS="${CPPFLAGS} -I${ZLIB_ROOTDIR}/include"
+	PKG_CONFIG_PATH="${PKG_CONFIG_PATH+${PKG_CONFIG_PATH}:}${ZLIB_ROOTDIR}/lib/pkgconfig"
+fi
+
 
 # Languages
 # =========
@@ -222,12 +240,4 @@ eval "$(pyenv virtualenv-init -)"
 pyenv virtualenvwrapper_lazy
 
 # final export PATH changes
-export PATH
-
-
-# For compilers to find zlib you may need to set:
-export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"
-export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/zlib/include"
-
-# For pkg-config to find zlib you may need to set:
-export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"
+export PATH LDFLAGS CPPFLAGS PKG_CONFIG_PATH DYLD_LIBRARY_PATH
