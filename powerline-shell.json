@@ -1,0 +1,16 @@
+{
+  "mode": "flat",
+  "segments": [
+    "hostname",
+    "virtual_env",
+    "git",
+    "cwd",
+    "read_only",
+    "newline",
+    "root"
+  ],
+  "cwd": {
+    "mode": "plain",
+    "full_cwd": true
+  }
+}
