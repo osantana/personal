@@ -224,6 +224,9 @@ export AWS_PROFILE="osvaldo-olist"
 # gpg aliases
 [ -d "${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin" ] && PATH="${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin:${PATH}"
 
+# curl issue (https://security.stackexchange.com/questions/232445/https-connection-to-specific-sites-fail-with-curl-on-macos)
+export CURL_SSL_BACKEND=secure-transport
+
 # qt
 PATH="/usr/local/opt/qt/bin:$PATH"
 
