@@ -84,8 +84,13 @@ fi
 
 # Homebrew
 if [ "$(uname)" == "Darwin" ]; then
-    export HOMEBREW_HOME="/usr/local"
-    PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin:$PATH"
+    export HOMEBREW_HOME="/opt/homebrew"
+    export HOMEBREW_PREFIX="${HOMEBREW_HOME}"
+    export HOMEBREW_CELLAR="${HOMEBREW_HOME}/Cellar"
+    export HOMEBREW_REPOSITORY="${HOMEBREW_HOME}"
+    export MANPATH="${HOMEBREW_HOME}/share/man${MANPATH+:$MANPATH}:"
+    export INFOPATH="${HOMEBREW_HOME}/share/info:${INFOPATH:-}"
+    PATH="${HOMEBREW_HOME}/bin:${HOMEBREW_HOME}/sbin${PATH+:$PATH}"
 fi
 
 [ -f "${HOME}/.secrets/misc/github.token" -a -f "${HOME}/.githubrc" ] && export HOMEBREW_GITHUB_API_TOKEN="$(sed -n '/^\s*token/s/.*=//p' "${HOME}/.githubrc")"
@@ -94,12 +99,12 @@ fi
 [ -d "${HOMEBREW_HOME}/opt/gettext/bin" ] && PATH="${HOMEBREW_HOME}/opt/gettext/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/opt/tcl-tk/bin" ] && PATH="${HOMEBREW_HOME}/opt/tcl-tk/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/opt/sqlite/bin" ] && PATH="${HOMEBREW_HOME}/opt/sqlite/bin:${PATH}"
-
+[ -d "${HOMEBREW_HOME}/opt/bzip2/bin" ] && PATH="${HOMEBREW_HOME}/opt/bzip2/bin:${PATH}"
 
 # OpenSSL Keg
 OPENSSL_ROOTDIR="${HOMEBREW_HOME}/opt/openssl@1.1"
 if [ -d "${OPENSSL_ROOTDIR}" ]; then
-	PATH="/usr/local/opt/openssl@1.1/bin:${PATH}"
+	PATH="${HOMEBREW_PREFIX}/opt/openssl@1.1/bin:${PATH}"
 	DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH:+${DYLD_LIBRARY_PATH}:}${OPENSSL_ROOTDIR}/lib"
 	PKG_CONFIG_PATH="${PKG_CONFIG_PATH+${PKG_CONFIG_PATH}:}${OPENSSL_ROOTDIR}/lib/pkgconfig"
 	LDFLAGS="${LDFLAGS} -L${OPENSSL_ROOTDIR}/lib"
@@ -122,7 +127,6 @@ fi
 [ -d "/usr/local/google_appengine" ] && PYTHONPATH="/usr/local/google_appengine:/usr/local/google_appengine/lib"
 [ -d "${HOME}/.python" ] || mkdir -p "${HOME}/.python"
 [ -f "${HOME}/.pystartup.py" ] && export PYTHONSTARTUP="${HOME}/.pystartup.py"
-[ -d "${HOME}/.poetry/bin" ] && PATH="${HOME}/.poetry/bin:${PATH}"
 export PYTHONPATH
 
 # virtualenvwrapper
@@ -133,8 +137,18 @@ if [ -x "${HOMEBREW_HOME}/bin/virtualenvwrapper.sh" ]; then
     export VIRTUALENVWRAPPER_SCRIPT="${HOMEBREW_HOME}/bin/virtualenvwrapper.sh"
     source "${HOMEBREW_HOME}/bin/virtualenvwrapper_lazy.sh"
 fi
-p() { workon $(workon | sed -n "/^$(echo $1 | sed 's,/,,').*/p" | sort -u | head -1); }
-c() { cdproject $*; }
+p() {
+	workon $(workon | sed -n "/^$(echo $1 | sed 's,/,,').*/p" | sort -u | head -1);
+	[ -f "${VIRTUAL_ENV}/.project" ] || echo "${PROJECT_HOME}/$(basename ${VIRTUAL_ENV})" > "${VIRTUAL_ENV}/.project"
+	c
+}
+c() {
+    if [ -z "${VIRTUAL_ENV}" ]; then
+        return
+    fi
+    [ -f "${VIRTUAL_ENV}/.project" ] || echo "${PROJECT_HOME}/$(basename ${VIRTUAL_ENV})" > "${VIRTUAL_ENV}/.project"
+    cdproject $*;
+}
 
 newproject() {
     project="$1"
@@ -160,10 +174,10 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 # pyenv
 if [ -d "${HOME}/.pyenv" ]; then
     export PYENV_ROOT="${HOME}/.pyenv"
-    export PATH="${PYENV_ROOT}/bin:$PATH"
+    PATH="${PYENV_ROOT}/bin:$PATH"
 else
-    export PYENV_ROOT=/usr/local/var/pyenv
-    export PATH="/usr/local/var/pyenv/bin:$PATH"
+    export PYENV_ROOT=${HOMEBREW_PREFIX}/var/pyenv
+    PATH="${HOMEBREW_PREFIX}/var/pyenv/bin:$PATH"
 fi
 if which pyenv > /dev/null; then
     eval "$(pyenv init -)"
@@ -184,8 +198,13 @@ PATH="${JAVA_HOME}/bin:${PATH}"
 
 # Go
 [ -d "${HOME}/.go" ] && export GOPATH="${HOME}/.go"
-[ -d "/usr/local/opt/go/libexec" ] && export GOROOT=/usr/local/opt/go/libexec
+[ -d "${HOMEBREW_PREFIX}/opt/go/libexec" ] && export GOROOT="${HOMEBREW_PREFIX}/opt/go/libexec"
 PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
+
+# JS
+export NVM_DIR="$HOME/.nvm"
+[ -s "${HOMEBREW_HOME}/opt/nvm/nvm.sh" ] && . "${HOMEBREW_HOME}/opt/nvm/nvm.sh"
+[ -s "${HOMEBREW_HOME}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${HOMEBREW_HOME}/opt/nvm/etc/bash_completion.d/nvm"
 
 # Local
 # =====
@@ -227,11 +246,8 @@ export AWS_PROFILE="osvaldo-olist"
 # curl issue (https://security.stackexchange.com/questions/232445/https-connection-to-specific-sites-fail-with-curl-on-macos)
 export CURL_SSL_BACKEND=secure-transport
 
-# qt
-PATH="/usr/local/opt/qt/bin:$PATH"
-
 # heroku
-PATH="/usr/local/heroku/bin:$PATH"
+PATH="${HOMEBREW_PREFIX}/heroku/bin:${PATH}"
 
 if [ -f "${HOME}/.herokurc" ]; then
     export HEROKU_API_KEY=$(sed -n '/^\s*token/s/.*=//p' ~/.herokurc)
