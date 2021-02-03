@@ -124,7 +124,6 @@ fi
 # =========
 
 # Python
-[ -d "/usr/local/google_appengine" ] && PYTHONPATH="/usr/local/google_appengine:/usr/local/google_appengine/lib"
 [ -d "${HOME}/.python" ] || mkdir -p "${HOME}/.python"
 [ -f "${HOME}/.pystartup.py" ] && export PYTHONSTARTUP="${HOME}/.pystartup.py"
 export PYTHONPATH
