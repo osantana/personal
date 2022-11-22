@@ -214,6 +214,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "${HOMEBREW_HOME}/opt/nvm/nvm.sh" ] && . "${HOMEBREW_HOME}/opt/nvm/nvm.sh"
 [ -s "${HOMEBREW_HOME}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${HOMEBREW_HOME}/opt/nvm/etc/bash_completion.d/nvm"
 
+# LLVM
+[ -d "${HOMEBREW_HOME}/opt/llvm/bin" ] && PATH="${HOMEBREW_HOME}/opt/llvm/bin:${PATH}"
+
 # Local
 # =====
 [ -d "${HOME}/.local/bin" ] && PATH="${HOME}/.local/bin:${PATH}"
