@@ -94,6 +94,7 @@ let python_highlight_all = 1
 au FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python set expandtab smarttab autoindent smartindent shiftwidth=4 tabstop=4 softtabstop=4
+au FileType vhdl set expandtab smarttab autoindent smartindent shiftwidth=4 tabstop=4 softtabstop=4
 
 " Terminal.app keyboard settings
 map <Esc>[H <Home>
