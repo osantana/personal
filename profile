@@ -186,7 +186,7 @@ else
     PATH="${HOMEBREW_PREFIX}/var/pyenv/bin:$PATH"
 fi
 if which pyenv > /dev/null; then
-    eval "$(pyenv init -)"
+    eval "$(pyenv init --path)"
 fi
 
 
