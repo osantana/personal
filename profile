@@ -170,6 +170,13 @@ newproject() {
 syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
 syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 
+# uppy
+uppy() {
+    pip install -U setuptools
+    pip install -U pip
+    pip install -U wheel poetry virtualenv virtualenvwrapper
+}
+
 # pyenv
 if [ -d "${HOME}/.pyenv" ]; then
     export PYENV_ROOT="${HOME}/.pyenv"
