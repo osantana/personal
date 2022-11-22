@@ -32,6 +32,7 @@
 	tool = vimdiff
 	conflictstyle = diff3
 [core]
+	pager = delta
 	legacyheaders = false
 	excludesfile = /Users/osantana/.gitignore
 [repack]
@@ -39,12 +40,6 @@
 [clean]
 	requireForce = false
 
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [push]
 	default = matching
 [help]
@@ -52,17 +47,20 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[webui]
-	autoupdate = true
 [diff]
 	tool = vimdiff
+	colorMoved = default
 [user]
 	useConfigOnly = true
 	name = Osvaldo Santana Neto
-	email = github@osantana.me
+	email = osantana@osantana.me
 [user "github"]
 	name = Osvaldo Santana Neto
 	email = github@osantana.me
+	signingkey = 5AAEA8B535B453D3
+[user "gitlab"]
+	name = Osvaldo Santana Neto
+	email = gitlab@osantana.me
 	signingkey = 5AAEA8B535B453D3
 [pull]
 	rebase = true
@@ -71,3 +69,18 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[init]
+	defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	light = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/osantana/.stCommitMsg
