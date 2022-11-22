@@ -198,8 +198,10 @@ RUBY_VER="2.7.0"
 [ -d "${HOMEBREW_HOME}/lib/ruby/gems/${RUBY_VER}/bin" ] && PATH="${HOMEBREW_HOME}/lib/ruby/gems/${RUBY_VER}/bin:${PATH}"
 
 # Java
+[ -d "/Library/Java/JavaVirtualMachines/jdk-18.0.2.1.jdk/Contents/Home" ] && export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-18.0.2.1.jdk/Contents/Home"
 [ -d "/Library/Java/Home" ] && export JAVA_HOME="/Library/Java/Home"
 [ -d "${HOME}/.local/jre" ] && export JAVA_HOME="${HOME}/.local/jre"
+[ -d "${HOMEBREW_HOME}/opt/openjdk" ] && JAVA_HOME="${HOMEBREW_HOME}/opt/openjdk"
 PATH="${JAVA_HOME}/bin:${PATH}"
 
 # Go
