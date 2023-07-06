@@ -14,6 +14,7 @@ esac
 shopt -s checkwinsize
 
 if [ "$(uname)" == "Darwin" ]; then
+    export LC_ALL=en_US.UTF-8
     export LANG=en_US.UTF-8
     export LC_CTYPE=en_US.UTF-8
     export CLICOLOR=1
@@ -149,22 +150,6 @@ c() {
     cdproject $*;
 }
 
-newproject() {
-    project="$1"
-    pyver="${2:-3.5}"
-    echo "Python: $(which python${pyver})"
-    [ -d "${WORKON_HOME}/${project}" ] && rm -rf "${WORKON_HOME}/${project}"
-    if [ -d "${PROJECT_HOME}/${project}" ]; then
-        mv "${PROJECT_HOME}/${project}" "${PROJECT_HOME}/${project}.tmp"
-	mkproject -p "$(which python${pyver})" "${project}"
-        rm -rf "${PROJECT_HOME}/${project}"
-        mv "${PROJECT_HOME}/${project}.tmp" "${PROJECT_HOME}/${project}"
-        cd .
-    else
-	mkproject -p "$(which python${pyver})" "${project}"
-    fi
-}
-
 # pip
 [ -d "${HOME}/.pip/cache" ] && export PIP_DOWNLOAD_CACHE="${HOME}/.pip/cache"
 syspip() { PIP_REQUIRE_VIRTUALENV="" pip2 "$@"; }
@@ -174,7 +159,13 @@ syspip3() { PIP_REQUIRE_VIRTUALENV="" pip3 "$@"; }
 uppy() {
     pip install -U setuptools
     pip install -U pip
-    pip install -U wheel poetry virtualenv virtualenvwrapper
+    pip install -U wheel virtualenv virtualenvwrapper
+    poetry self update
+}
+
+# upoetry
+upoetry() {
+    rm -f poetry.lock && poetry update && git add poetry.lock
 }
 
 # pyenv
@@ -235,13 +226,6 @@ else
 fi
 
 
-
-# AWS
-# ===
-export EC2_PRIVATE_KEY="~/.ec2/pk.pem"
-export EC2_CERT="~/.ec2/cert.pem"
-export AWS_PROFILE="osvaldo-olist"
-
 # Android
 [ -d "${HOME}/.android/sdk" ] && export ANDROID_HOME="${HOME}/.android/sdk"
 [ -d "${ANDROID_HOME}/tools" ] && PATH="${ANDROID_HOME}/tools:${PATH}"
@@ -272,3 +256,5 @@ pyenv virtualenvwrapper_lazy
 
 # final export PATH changes
 export PATH LDFLAGS CPPFLAGS PKG_CONFIG_PATH DYLD_LIBRARY_PATH
+
+# vim:ts=4:tw=4:ai:si

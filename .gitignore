@@ -4,3 +4,4 @@ vim/.netrwhist
 vim/bundle
 vim/autoload
 .venv/
+bin/poetry

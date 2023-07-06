@@ -32,7 +32,6 @@
 	tool = vimdiff
 	conflictstyle = diff3
 [core]
-	pager = delta
 	legacyheaders = false
 	excludesfile = /Users/osantana/.gitignore
 [repack]
