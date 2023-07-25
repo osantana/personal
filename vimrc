@@ -19,8 +19,8 @@ let g:pep8_map='<leader>8'
 " call pathogen#helptags()
 
 " Color (light bg)
-set background=light
-colorscheme delek
+"set background=light
+"colorscheme delek
 
 " General settings
 set modeline 				" use vim settings in beginning/end of files

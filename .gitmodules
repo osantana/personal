@@ -1,6 +1,0 @@
-[submodule "powerline-shell"]
-	path = powerline-shell
-	url = https://github.com/b-ryan/powerline-shell
-[submodule "fonts"]
-	path = fonts
-	url = git@github.com:powerline/fonts.git
