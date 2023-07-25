@@ -1,7 +1,6 @@
-.hg
 *.py[cod]
-vim/.netrwhist
+vim/*
 vim/bundle
 vim/autoload
-.venv/
+
 bin/poetry
