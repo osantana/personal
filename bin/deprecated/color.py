@@ -5,13 +5,13 @@ import sys
 
 def go():
     if len(sys.argv) != 2:
-        print "Usage: %s <filename>" % sys.argv[0]
+        print("Usage: %s <filename>" % sys.argv[0])
         sys.exit(1)
     output_fn, ext = os.path.splitext(sys.argv[1])
     output_fn += '.html'
-    print "Generating %s" % (output_fn)
+    print("Generating %s" % (output_fn))
     os.system("pygmentize -O full -o %s %s" % (output_fn, sys.argv[1]))
-    print "Copying to clipboard..."
+    print("Copying to clipboard...")
     fullpath = os.path.abspath(output_fn)
     os.system("""osascript<<END
 tell application "Safari"
