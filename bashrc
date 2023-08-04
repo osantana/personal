@@ -198,9 +198,10 @@ uppy() {
 
 # Java
 # ----
+set -vx
 JAVA_VM="jdk-20.jdk"
 if [ -d "/Library/Java/JavaVirtualMachines/${JAVA_VM}/Contents/Home" ]; then
-    JAVA_HOME="/Library/Java/JavaVirtualMachines/${JAVA_HOME}/Contents/Home"
+    JAVA_HOME="/Library/Java/JavaVirtualMachines/${JAVA_VM}/Contents/Home"
 elif [ -d "/Library/Java/Home" ]; then
     JAVA_HOME="/Library/Java/Home"
 elif [ -d "${HOME}/.local/jre" ]; then
