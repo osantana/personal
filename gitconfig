@@ -23,7 +23,6 @@
 	type = cat-file -t
 	dump = cat-file -p
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	webui = !/Users/osantana/.git-webui/release/libexec/git-core/git-webui
 	praise = blame
 	co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
 	identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; git config user.signingkey \"$(git config user.$1.signingkey)\"; :"
@@ -46,9 +45,6 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[diff]
-	tool = vimdiff
-	colorMoved = default
 [user]
 	useConfigOnly = true
 	name = Osvaldo Santana Neto
@@ -70,16 +66,3 @@
 	required = true
 [init]
 	defaultBranch = main
-[interactive]
-	diffFilter = delta --color-only
-[delta]
-	navigate = true
-	light = true
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[commit]
-	template = /Users/osantana/.stCommitMsg
