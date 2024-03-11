@@ -1,45 +1,28 @@
 import sys
 import atexit
 import os
+import readline
 import rlcompleter
 
-# Enable syntax completion
-try:
-    import readline
-except ImportError:
-    print("Module readline not available.")
-else:
-    import rlcompleter
+path = os.path.expanduser("~/.pyhistory")
+marker = "### HISTORY DUMP ###"
+
+def save_history(path=path, marker=marker, readline=readline):
+    readline.write_history_file(path)
+    with open(path) as history:
+        lines = [line for line in history if not line.strip().endswith(marker)]
+    open(path, "w+").write("".join(lines))
+
+def main():
+    sys.path.append(os.path.expanduser("~/.python"))
     readline.parse_and_bind("tab: complete")
+    try:
+        readline.read_history_file(path)
+    except IOError:
+        pass
 
-sys.path.append(os.path.expanduser("~/.python"))
-
-historyPath = os.path.expanduser("~/.pyhistory")
-historyTmp = os.path.expanduser("~/.pyhisttmp.py")
-endMarkerStr= "# # # histDUMP # # #"
-
-saveMacro= "import readline; readline.write_history_file('"+historyTmp+"'); \
-    print '####>>>>>>>>>>'; print ''.join(filter(lambda lineP: \
-    not lineP.strip().endswith('"+endMarkerStr+"'),  \
-    open('"+historyTmp+"').readlines())[:])+'####<<<<<<<<<<'"+endMarkerStr
-
-readline.parse_and_bind('tab: complete')
-readline.parse_and_bind('\C-w: "'+saveMacro+'"')
-
-def save_history(historyPath=historyPath, endMarkerStr=endMarkerStr):
-    import readline
-    readline.write_history_file(historyPath)
-    # Now filter out those line containing the saveMacro
-    lines= filter(lambda lineP, endMarkerStr=endMarkerStr:
-                      not lineP.strip().endswith(endMarkerStr), open(historyPath).readlines())
-    open(historyPath, 'w+').write(''.join(lines))
-
-try:
-    readline.read_history_file(historyPath)
-except IOError:
-    pass
 
 atexit.register(save_history)
 
-del os, atexit, readline, rlcompleter, save_history, historyPath
-del historyTmp, endMarkerStr, saveMacro
+del sys, atexit, os, readline, rlcompleter
+del save_history, main, path, marker
