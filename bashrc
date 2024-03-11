@@ -264,6 +264,9 @@ export NVM_DIR="${HOME}/.nvm"
 # ----
 [ -d "${HOMEBREW_HOME}/opt/llvm/bin" ] && PATH="${HOMEBREW_HOME}/opt/llvm/bin:${PATH}"
 
+# LaTeX (mactex)
+eval "$(/usr/libexec/path_helper)"
+
 
 # ===========
 # Completions
@@ -325,3 +328,5 @@ fi
 export PATH LDFLAGS CPPFLAGS PKG_CONFIG_PATH DYLD_LIBRARY_PATH
 
 # vim:ts=4:sw=4:tw=80:et:ai:si
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
