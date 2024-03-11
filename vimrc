@@ -1,26 +1,7 @@
-" Reference:
-"  http://sontek.net/turning-vim-into-a-modern-python-ide
-
 filetype off
 
-" Override some plugin settings
-map <leader>v <Plug>TaskList
-map <leader>g <Plug>MakeGreen
-map <leader>U :GundoToggle<CR>
-map <leader>dt :set makeprg=nosetests\|:call MakeGreen()<CR>
-
-let g:pyflakes_use_quickfix = 0
-let g:pep8_map='<leader>8'
-
-" set statusline=%<%f\ %h%m%r%y%=%-15.{fugitive#statusline()}\ %-14.(%l,%c%V%)\ %P
-
-" Load and configure pathogen
-" call pathogen#runtime_append_all_bundles()
-" call pathogen#helptags()
-
 " Color (light bg)
-"set background=light
-"colorscheme delek
+set background=light
 
 " General settings
 set modeline 				" use vim settings in beginning/end of files
@@ -47,14 +28,6 @@ set foldmethod=indent 			" Folding method: indent
 set foldlevel=99 			" Initial Fold Level
 set clipboard=unnamed
 
-let mapleader="," 			" <Leader> == ,
-
-" CTRL+[hjkl] navigation between buffers
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
-
 " Doh... you know what this does... ;-)
 syntax on
 
@@ -64,7 +37,6 @@ filetype plugin indent on               " indent files, ftplugins
 
 " Some useful abbreviations to common mistyped commands
 cab W w | cab Q q | cab Wq wq | cab wQ wq | cab WQ wq | cab X x
-
 
 " Comment/Uncomment for different languages
 au FileType haskell,vhdl,ada            let comment = '-- '
@@ -78,7 +50,6 @@ au FileType vim                         let comment = '" '
 " ,u -> uncomment selected
 noremap <silent> ,c :s,^,<C-R>=comment<CR>,<CR>:noh<CR>
 noremap <silent> ,u :s,^\V<C-R>=comment<CR>,,e<CR>:noh<CR>
-
 
 " Highlight trailing whitespaces
 highlight WhitespaceEOL ctermbg=red guibg=red
@@ -96,26 +67,6 @@ au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python set expandtab smarttab autoindent smartindent shiftwidth=4 tabstop=4 softtabstop=4
 au FileType vhdl set expandtab smarttab autoindent smartindent shiftwidth=4 tabstop=4 softtabstop=4
 
-" Terminal.app keyboard settings
-map <Esc>[H <Home>
-imap <Esc>[H <Home>
-map <Esc>[F <End>
-imap <Esc>[F <End>
-map <Esc>[5~ <PageUp>
-imap <Esc>[5~ <PageUp>
-map <Esc>[6~ <PageDown>
-imap <Esc>[6~ <PageDown>
-
 " Moving .swp files away
 set backupdir=~/.vim
 set directory=~/.vim
-
-" MacVim
-if has("gui_macvim")
-    let macvim_hig_shift_movement = 1
-    set guioptions-=T
-    colorscheme macvim
-    set bg=light
-    set guifont=Consolas:h18
-    set guicursor=a:blinkoff0-blinkwait0
-endif
