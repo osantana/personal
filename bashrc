@@ -103,7 +103,7 @@ fi
 [ -d "${HOMEBREW_HOME}/opt/sqlite/bin" ] && PATH="${HOMEBREW_HOME}/opt/sqlite/bin:${PATH}"
 [ -d "${HOMEBREW_HOME}/opt/bzip2/bin" ] && PATH="${HOMEBREW_HOME}/opt/bzip2/bin:${PATH}"
 
-OPENSSL_ROOTDIR="${HOMEBREW_HOME}/opt/openssl@1.1"
+OPENSSL_ROOTDIR="${HOMEBREW_HOME}/opt/openssl@3"
 if [ -d "${OPENSSL_ROOTDIR}" ]; then
     PATH="${OPENSSL_ROOTDIR}/bin:${PATH}"
     DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH:+${DYLD_LIBRARY_PATH}:}${OPENSSL_ROOTDIR}/lib"
