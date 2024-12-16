@@ -311,10 +311,11 @@ source "${HOME}/.config/op/plugins.sh"
 # Misc
 # ====
 
-# gpg aliases
+# gpg settings
 if [ -d "${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin" ]; then
     PATH="${HOMEBREW_HOME}/opt/gnupg/libexec/gpgbin:${PATH}"
 fi
+export GPG_TTY=$(tty)
 
 # curl issue (https://security.stackexchange.com/questions/232445/https-connection-to-specific-sites-fail-with-curl-on-macos)
 export CURL_SSL_BACKEND="secure-transport"
