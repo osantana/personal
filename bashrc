@@ -39,6 +39,11 @@ ensure() {
 
     echo "Installing $(basename $bin) with command: $installation..."
     eval "${installation}"
+
+    post_install="$3"
+    if [ "${post_install}" ]; then
+        eval "${post_install}"
+    fi
 }
 
 
@@ -54,12 +59,6 @@ export HISTCONTROL=ignoreboth
 export HISTSIZE=1000
 export HISTFILESIZE=2000
 
-# Warp Terminal
-if [ "${TERM_PROGRAM}" == "WarpTerminal" ]; then
-    export SPACESHIP_PROMPT_ASYNC=false
-    export SPACESHIP_PROMPT_SEPARATE_LINE=false
-    export SPACESHIP_CHAR_SYMBOL=""
-fi
 
 # color
 if [ "$(uname)" == "Darwin" ]; then
@@ -193,11 +192,16 @@ c() {
 
 # poetry
 ensure "${HOME}/.local/bin/poetry" \
-       "curl -sSL https://install.python-poetry.org | python3 -"
+       "curl -sSL https://install.python-poetry.org | python3 -" \
+       "poetry config virtualenvs.in-project true"
 
 upoetry() {
     rm -f poetry.lock && poetry update && git add poetry.lock
 }
+
+# uv
+ensure "${HOME}/.local/bin/uv" \
+    "curl -LsSf https://astral.sh/uv/install.sh | sh"
 
 # uppy
 uppy() {
@@ -206,10 +210,6 @@ uppy() {
     pip install -U wheel virtualenv virtualenvwrapper
     poetry self update
 }
-
-# Ruby
-# ----
-# TODO: adopt nvm/pyenv-like tool for Ruby
 
 # Java
 # ----
@@ -237,7 +237,6 @@ PATH="${JAVA_HOME}/bin:${PATH}"
 # Go
 # --
 
-
 ensure "go" \
        "brew install go" \
        "sudo apt install golang-go"
@@ -253,6 +252,10 @@ fi
 
 PATH="${GOPATH}/bin:${GOROOT}/bin:${PATH}"
 
+# Rust
+# ----
+
+source "$HOME/.cargo/env"
 
 # JS
 # --
@@ -265,8 +268,7 @@ export NVM_DIR="${HOME}/.nvm"
 [ -d "${HOMEBREW_HOME}/opt/llvm/bin" ] && PATH="${HOMEBREW_HOME}/opt/llvm/bin:${PATH}"
 
 # LaTeX (mactex)
-eval "$(/usr/libexec/path_helper)"
-
+[ -d "/Library/TeX/texbin" ] && PATH="/Library/TeX/texbin:${PATH}"
 
 # ===========
 # Completions
@@ -325,8 +327,16 @@ export CURL_SSL_BACKEND="secure-transport"
 if [ -d "${HOME}/.local/bin" ]; then
    PATH="${HOME}/.local/bin:${PATH}"
 fi
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+# asdf (must run after PATH is formed)
+# ====================================
+
+export ASDF_HOME="${HOMEBREW_HOME}/opt/asdf"
+source "${ASDF_HOME}/libexec/asdf.sh"
+source "${ASDF_HOME}/etc/bash_completion.d/asdf.bash"
+
 export PATH LDFLAGS CPPFLAGS PKG_CONFIG_PATH DYLD_LIBRARY_PATH
 
 # vim:ts=4:sw=4:tw=80:et:ai:si
-
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh

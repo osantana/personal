@@ -5,3 +5,5 @@ vim/autoload
 
 bin/poetry
 bin/fig
+bin/uv
+bin/uvx

@@ -26,7 +26,6 @@
 	praise = blame
 	co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
 	identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; git config user.signingkey \"$(git config user.$1.signingkey)\"; :"
-
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
@@ -48,15 +47,16 @@
 [user]
 	useConfigOnly = true
 	name = Osvaldo Santana Neto
-	email = osantana@osantana.me
-[user "github"]
-	name = Osvaldo Santana Neto
 	email = github@osantana.me
-	signingkey = 5AAEA8B535B453D3
+	signingkey = 969DFDC60D065829
 [user "gitlab"]
 	name = Osvaldo Santana Neto
 	email = gitlab@osantana.me
-	signingkey = 5AAEA8B535B453D3
+	signingkey = 969DFDC60D065829
+[user "github"]
+	name = Osvaldo Santana Neto
+	email = github@osantana.me
+	signingkey = 969DFDC60D065829
 [pull]
 	rebase = true
 [filter "lfs"]
@@ -66,13 +66,15 @@
 	required = true
 [init]
 	defaultBranch = main
+[protocol]
+	version = 2
+[commit]
+	gpgSign = true
+[tag]
+	gpgSign = true
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
-[protocol]
-	version = 2
-[commit]
-	template = /Users/osantana/.stCommitMsg
