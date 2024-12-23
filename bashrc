@@ -306,6 +306,9 @@ fi
 # TODO: install 1password cli
 source "${HOME}/.config/op/plugins.sh"
 
+# gcloud
+source "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+source "${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
 
 # ====
 # Misc
