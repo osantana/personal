@@ -133,6 +133,13 @@ if [ -d "${BERKELEYDB_ROOTDIR}" ]; then
     PKG_CONFIG_PATH="${PKG_CONFIG_PATH+${PKG_CONFIG_PATH}:}${BERKELEYDB_ROOTDIR}/lib/pkgconfig"
 fi
 
+POSTGRESQL_ROOTDIR="$(ls -d ${HOMEBREW_HOME}/opt/postgresql* | tail -1)"
+if [ -d "${POSTGRESQL_ROOTDIR}" ]; then
+    PATH="${POSTGRESQL_ROOTDIR}/bin:${PATH}"
+    LDFLAGS="${LDFLAGS} -L${POSTGRESQL_ROOTDIR}/lib"
+    CPPFLAGS="${CPPFLAGS} -I${POSTGRESQL_ROOTDIR}/include"
+fi
+
 
 # ======
 # Prompt
@@ -333,13 +340,6 @@ if [ -d "${HOME}/.local/bin" ]; then
 fi
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-
-# asdf (must run after PATH is formed)
-# ====================================
-
-export ASDF_HOME="${HOMEBREW_HOME}/opt/asdf"
-source "${ASDF_HOME}/libexec/asdf.sh"
-source "${ASDF_HOME}/etc/bash_completion.d/asdf.bash"
 
 export PATH LDFLAGS CPPFLAGS PKG_CONFIG_PATH DYLD_LIBRARY_PATH
 
